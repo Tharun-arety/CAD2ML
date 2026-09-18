@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cad2ml"
+version = "1.0.0"
+description = "CAD data engine: STEP -> canonical B-Rep -> aligned, traceable ML representations and versioned datasets"
+requires-python = ">=3.11,<3.12"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.scripts]
+cad2ml = "cad2ml.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["cad2ml*", "apps*"]
+
+[tool.setuptools.package-data]
+"apps.api" = ["static/*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["data", "fixtures"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003", "B008", "E501"]  # line length enforced by ruff format
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["RUF005", "RUF007"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_ignores = false
+check_untyped_defs = true
+exclude = ["^data/", "^fixtures/", "^db/migrations/"]
+
+[[tool.mypy.overrides]]
+module = ["OCP.*", "cadquery.*"]
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "services: requires real PostgreSQL and Valkey (docker compose)",
+  "slow: long-running (corpus, training)",
+]
+addopts = "-ra -p no:cacheprovider --basetemp=.pytest_tmp"
+timeout = 900
+filterwarnings = ["ignore:.*deprecated - use.*", "ignore::DeprecationWarning:pyparsing.*", "ignore::DeprecationWarning:cadquery.*", "ignore:.*parseString.*", "ignore:.*parseAll.*", "ignore:save will be removed:FutureWarning"]

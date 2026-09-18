@@ -1,0 +1,190 @@
+{
+ "$defs": {
+  "IngestionConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "max_file_bytes": {
+     "default": 52428800,
+     "title": "Max File Bytes",
+     "type": "integer"
+    },
+    "allowed_extensions": {
+     "default": [
+      ".step",
+      ".stp"
+     ],
+     "items": {
+      "type": "string"
+     },
+     "title": "Allowed Extensions",
+     "type": "array"
+    },
+    "parse_timeout_s": {
+     "default": 120.0,
+     "title": "Parse Timeout S",
+     "type": "number"
+    }
+   },
+   "title": "IngestionConfig",
+   "type": "object"
+  },
+  "PointCloudConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "num_points": {
+     "default": 4096,
+     "title": "Num Points",
+     "type": "integer"
+    },
+    "min_points_per_face": {
+     "default": 8,
+     "title": "Min Points Per Face",
+     "type": "integer"
+    },
+    "edge_bias_fraction": {
+     "default": 0.0,
+     "title": "Edge Bias Fraction",
+     "type": "number"
+    },
+    "compute_curvature": {
+     "default": true,
+     "title": "Compute Curvature",
+     "type": "boolean"
+    },
+    "seed": {
+     "default": 1234,
+     "title": "Seed",
+     "type": "integer"
+    }
+   },
+   "title": "PointCloudConfig",
+   "type": "object"
+  },
+  "RecognizerConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "angle_tol_deg": {
+     "default": 2.0,
+     "title": "Angle Tol Deg",
+     "type": "number"
+    },
+    "distance_tol_mm": {
+     "default": 0.001,
+     "title": "Distance Tol Mm",
+     "type": "number"
+    },
+    "min_through_hole_confidence": {
+     "default": 0.5,
+     "title": "Min Through Hole Confidence",
+     "type": "number"
+    }
+   },
+   "title": "RecognizerConfig",
+   "type": "object"
+  },
+  "RenderConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "num_views": {
+     "default": 6,
+     "title": "Num Views",
+     "type": "integer"
+    },
+    "resolution": {
+     "default": 256,
+     "title": "Resolution",
+     "type": "integer"
+    },
+    "fov_deg": {
+     "default": 35.0,
+     "title": "Fov Deg",
+     "type": "number"
+    },
+    "elevation_deg": {
+     "default": 30.0,
+     "title": "Elevation Deg",
+     "type": "number"
+    }
+   },
+   "title": "RenderConfig",
+   "type": "object"
+  },
+  "RepairConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "enabled": {
+     "default": true,
+     "title": "Enabled",
+     "type": "boolean"
+    },
+    "fix_tolerance_mm": {
+     "default": 0.001,
+     "title": "Fix Tolerance Mm",
+     "type": "number"
+    },
+    "max_deviation_mm": {
+     "default": 0.05,
+     "title": "Max Deviation Mm",
+     "type": "number"
+    },
+    "max_relative_volume_change": {
+     "default": 0.001,
+     "title": "Max Relative Volume Change",
+     "type": "number"
+    }
+   },
+   "title": "RepairConfig",
+   "type": "object"
+  },
+  "TessellationConfig": {
+   "additionalProperties": false,
+   "properties": {
+    "linear_deflection_mm": {
+     "default": 0.05,
+     "title": "Linear Deflection Mm",
+     "type": "number"
+    },
+    "relative_linear_deflection": {
+     "default": 0.002,
+     "title": "Relative Linear Deflection",
+     "type": "number"
+    },
+    "angular_deflection_rad": {
+     "default": 0.35,
+     "title": "Angular Deflection Rad",
+     "type": "number"
+    },
+    "min_triangles_per_face": {
+     "default": 1,
+     "title": "Min Triangles Per Face",
+     "type": "integer"
+    }
+   },
+   "title": "TessellationConfig",
+   "type": "object"
+  }
+ },
+ "additionalProperties": false,
+ "properties": {
+  "ingestion": {
+   "$ref": "#/$defs/IngestionConfig"
+  },
+  "repair": {
+   "$ref": "#/$defs/RepairConfig"
+  },
+  "tessellation": {
+   "$ref": "#/$defs/TessellationConfig"
+  },
+  "pointcloud": {
+   "$ref": "#/$defs/PointCloudConfig"
+  },
+  "render": {
+   "$ref": "#/$defs/RenderConfig"
+  },
+  "recognizer": {
+   "$ref": "#/$defs/RecognizerConfig"
+  }
+ },
+ "title": "PipelineConfig",
+ "type": "object"
+}

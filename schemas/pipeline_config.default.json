@@ -1,0 +1,40 @@
+{
+ "ingestion": {
+  "allowed_extensions": [
+   ".step",
+   ".stp"
+  ],
+  "max_file_bytes": 52428800,
+  "parse_timeout_s": 120.0
+ },
+ "pointcloud": {
+  "compute_curvature": true,
+  "edge_bias_fraction": 0.0,
+  "min_points_per_face": 8,
+  "num_points": 4096,
+  "seed": 1234
+ },
+ "recognizer": {
+  "angle_tol_deg": 2.0,
+  "distance_tol_mm": 0.001,
+  "min_through_hole_confidence": 0.5
+ },
+ "render": {
+  "elevation_deg": 30.0,
+  "fov_deg": 35.0,
+  "num_views": 6,
+  "resolution": 256
+ },
+ "repair": {
+  "enabled": true,
+  "fix_tolerance_mm": 0.001,
+  "max_deviation_mm": 0.05,
+  "max_relative_volume_change": 0.001
+ },
+ "tessellation": {
+  "angular_deflection_rad": 0.35,
+  "linear_deflection_mm": 0.05,
+  "min_triangles_per_face": 1,
+  "relative_linear_deflection": 0.002
+ }
+}

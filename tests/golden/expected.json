@@ -1,0 +1,317 @@
+{
+ "clevis/filleted/7104": {
+  "bounding_box_mm": [
+   49.326648,
+   29.508591,
+   55.930703
+  ],
+  "counts": [
+   1,
+   14,
+   36,
+   24
+  ],
+  "features": [
+   {
+    "n_faces": 1,
+    "radius_mm": 3.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 1,
+    "radius_mm": 3.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 3,
+    "type": "slot",
+    "width_mm": 17.500289
+   },
+   {
+    "diameter_mm": 10.5,
+    "n_faces": 2,
+    "type": "through_hole"
+   }
+  ],
+  "n_planar_faces": 7,
+  "surface_area_mm2": 13157.177525,
+  "surface_type_histogram": {
+   "cylinder": 4,
+   "plane": 10
+  },
+  "volume_mm3": 61563.093416
+ },
+ "flange/hub/7102": {
+  "bounding_box_mm": [
+   83.134799,
+   83.134799,
+   23.515081
+  ],
+  "counts": [
+   1,
+   14,
+   32,
+   21
+  ],
+  "features": [
+   {
+    "n_faces": 1,
+    "radius_mm": 1.5,
+    "type": "fillet"
+   },
+   {
+    "diameter_mm": 17.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 5.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   }
+  ],
+  "n_planar_faces": 3,
+  "surface_area_mm2": 16890.696908,
+  "surface_type_histogram": {
+   "cylinder": 10,
+   "plane": 3,
+   "torus": 1
+  },
+  "volume_mm3": 66791.616465
+ },
+ "housing/blind_holes/7103": {
+  "bounding_box_mm": [
+   78.247593,
+   77.409909,
+   40.073983
+  ],
+  "counts": [
+   1,
+   23,
+   54,
+   36
+  ],
+  "features": [
+   {
+    "depth_mm": 7.24,
+    "diameter_mm": 5.0,
+    "n_faces": 2,
+    "type": "blind_hole"
+   },
+   {
+    "depth_mm": 7.24,
+    "diameter_mm": 5.0,
+    "n_faces": 2,
+    "type": "blind_hole"
+   },
+   {
+    "depth_mm": 25.591392,
+    "n_faces": 9,
+    "type": "pocket"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   }
+  ],
+  "n_planar_faces": 6,
+  "surface_area_mm2": 31457.579943,
+  "surface_type_histogram": {
+   "cylinder": 10,
+   "plane": 13
+  },
+  "volume_mm3": 183455.697235
+ },
+ "mounting_bracket/slotted/7105": {
+  "bounding_box_mm": [
+   94.119377,
+   52.23457,
+   47.855896
+  ],
+  "counts": [
+   1,
+   15,
+   39,
+   26
+  ],
+  "features": [
+   {
+    "n_faces": 1,
+    "radius_mm": 1.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 4,
+    "type": "slot",
+    "width_mm": 6.5
+   },
+   {
+    "diameter_mm": 6.5,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 6.5,
+    "n_faces": 1,
+    "type": "through_hole"
+   }
+  ],
+  "n_planar_faces": 8,
+  "surface_area_mm2": 19717.708227,
+  "surface_type_histogram": {
+   "cylinder": 5,
+   "plane": 10
+  },
+  "volume_mm3": 42978.787157
+ },
+ "shaft_support/rounded/7106": {
+  "bounding_box_mm": [
+   109.636495,
+   41.650885,
+   64.293064
+  ],
+  "counts": [
+   1,
+   13,
+   33,
+   22
+  ],
+  "features": [
+   {
+    "diameter_mm": 17.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 6.5,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 6.5,
+    "n_faces": 1,
+    "type": "through_hole"
+   }
+  ],
+  "n_planar_faces": 9,
+  "surface_area_mm2": 22241.65091,
+  "surface_type_histogram": {
+   "cylinder": 4,
+   "plane": 9
+  },
+  "volume_mm3": 124792.113329
+ },
+ "slotted_plate/slots_fillet/7101": {
+  "bounding_box_mm": [
+   108.082944,
+   79.090327,
+   6.0
+  ],
+  "counts": [
+   1,
+   18,
+   48,
+   32
+  ],
+  "features": [
+   {
+    "n_faces": 1,
+    "radius_mm": 1.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 1,
+    "radius_mm": 1.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 1,
+    "radius_mm": 1.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 1,
+    "radius_mm": 1.5,
+    "type": "fillet"
+   },
+   {
+    "n_faces": 4,
+    "type": "slot",
+    "width_mm": 8.5
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   },
+   {
+    "diameter_mm": 4.0,
+    "n_faces": 1,
+    "type": "through_hole"
+   }
+  ],
+  "n_planar_faces": 6,
+  "surface_area_mm2": 19367.909153,
+  "surface_type_histogram": {
+   "cylinder": 10,
+   "plane": 8
+  },
+  "volume_mm3": 48562.787001
+ }
+}

@@ -1,0 +1,8 @@
+data/
+fixtures/corpus/
+.pytest_tmp/
+.git/
+**/__pycache__/
+*.log
+.mypy_cache/
+.ruff_cache/

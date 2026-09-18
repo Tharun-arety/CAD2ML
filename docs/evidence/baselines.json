@@ -1,0 +1,840 @@
+{
+ "epochs": 150,
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "labels": [
+  "planar",
+  "hole",
+  "slot",
+  "pocket",
+  "fillet",
+  "other"
+ ],
+ "splits": {
+  "group": {
+   "dataset_id": "ds_3eb4aa3526731308",
+   "split_sizes": {
+    "train": 48,
+    "val": 12,
+    "test": 12
+   },
+   "families_per_split": {
+    "train": [
+     "clevis",
+     "flange",
+     "housing",
+     "mounting_bracket",
+     "shaft_support",
+     "slotted_plate"
+    ],
+    "val": [
+     "clevis",
+     "flange",
+     "slotted_plate"
+    ],
+    "test": [
+     "housing",
+     "mounting_bracket",
+     "shaft_support"
+    ]
+   },
+   "test_class_distribution": {
+    "fillet": 4,
+    "hole": 60,
+    "planar": 96,
+    "pocket": 36
+   },
+   "rule_recognizer_test": {
+    "confusion_matrix": {
+     "labels": [
+      "planar",
+      "hole",
+      "slot",
+      "pocket",
+      "fillet",
+      "other"
+     ],
+     "rows_true_cols_pred": [
+      [
+       96,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       60,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       36,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       4,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    "per_class": {
+     "planar": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 96
+     },
+     "hole": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 60
+     },
+     "slot": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+     },
+     "pocket": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 36
+     },
+     "fillet": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 4
+     },
+     "other": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+     }
+    },
+    "summary": {
+     "accuracy": 1.0,
+     "macro_f1_present_classes": 1.0,
+     "n_faces": 196,
+     "classes_present": 4
+    }
+   },
+   "models": {
+    "gnn": {
+     "test_accuracy_mean": 0.9337,
+     "test_accuracy_std": 0.0042,
+     "test_macro_f1_mean": 0.9818,
+     "test_macro_f1_std": 0.0012,
+     "runs": [
+      {
+       "seed": 0,
+       "run_id": "tr_b892b1e3391394cf",
+       "best_epoch": 8,
+       "duration_s": 15.26,
+       "accuracy": 0.9286,
+       "macro_f1_present_classes": 0.9803,
+       "n_faces": 196,
+       "classes_present": 4
+      },
+      {
+       "seed": 1,
+       "run_id": "tr_46dfe102e25f4bfd",
+       "best_epoch": 5,
+       "duration_s": 14.76,
+       "accuracy": 0.9388,
+       "macro_f1_present_classes": 0.9833,
+       "n_faces": 196,
+       "classes_present": 4
+      },
+      {
+       "seed": 2,
+       "run_id": "tr_56e7ee2278a70f19",
+       "best_epoch": 4,
+       "duration_s": 16.67,
+       "accuracy": 0.9337,
+       "macro_f1_present_classes": 0.9818,
+       "n_faces": 196,
+       "classes_present": 4
+      }
+     ],
+     "seed0_per_class": {
+      "planar": {
+       "precision": 1.0,
+       "recall": 0.8542,
+       "f1": 0.9213,
+       "support": 96
+      },
+      "hole": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 60
+      },
+      "slot": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      },
+      "pocket": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 36
+      },
+      "fillet": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 4
+      },
+      "other": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      }
+     },
+     "seed0_confusion": {
+      "labels": [
+       "planar",
+       "hole",
+       "slot",
+       "pocket",
+       "fillet",
+       "other"
+      ],
+      "rows_true_cols_pred": [
+       [
+        82,
+        0,
+        14,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        60,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        36,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        4,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "mlp": {
+     "test_accuracy_mean": 1.0,
+     "test_accuracy_std": 0.0,
+     "test_macro_f1_mean": 1.0,
+     "test_macro_f1_std": 0.0,
+     "runs": [
+      {
+       "seed": 0,
+       "run_id": "tr_8d146da69809c12b",
+       "best_epoch": 35,
+       "duration_s": 3.17,
+       "accuracy": 1.0,
+       "macro_f1_present_classes": 1.0,
+       "n_faces": 196,
+       "classes_present": 4
+      },
+      {
+       "seed": 1,
+       "run_id": "tr_0609043d4d2921ff",
+       "best_epoch": 26,
+       "duration_s": 3.82,
+       "accuracy": 1.0,
+       "macro_f1_present_classes": 1.0,
+       "n_faces": 196,
+       "classes_present": 4
+      },
+      {
+       "seed": 2,
+       "run_id": "tr_25e61344e3841d2c",
+       "best_epoch": 52,
+       "duration_s": 3.51,
+       "accuracy": 1.0,
+       "macro_f1_present_classes": 1.0,
+       "n_faces": 196,
+       "classes_present": 4
+      }
+     ],
+     "seed0_per_class": {
+      "planar": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 96
+      },
+      "hole": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 60
+      },
+      "slot": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      },
+      "pocket": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 36
+      },
+      "fillet": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 4
+      },
+      "other": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      }
+     },
+     "seed0_confusion": {
+      "labels": [
+       "planar",
+       "hole",
+       "slot",
+       "pocket",
+       "fillet",
+       "other"
+      ],
+      "rows_true_cols_pred": [
+       [
+        96,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        60,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        36,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        4,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ]
+      ]
+     }
+    }
+   }
+  },
+  "family": {
+   "dataset_id": "ds_6b514ec0fcf2ea58",
+   "split_sizes": {
+    "train": 48,
+    "val": 12,
+    "test": 12
+   },
+   "families_per_split": {
+    "train": [
+     "clevis",
+     "flange",
+     "mounting_bracket",
+     "shaft_support"
+    ],
+    "val": [
+     "housing"
+    ],
+    "test": [
+     "slotted_plate"
+    ]
+   },
+   "test_class_distribution": {
+    "fillet": 16,
+    "hole": 52,
+    "planar": 72,
+    "slot": 44
+   },
+   "rule_recognizer_test": {
+    "confusion_matrix": {
+     "labels": [
+      "planar",
+      "hole",
+      "slot",
+      "pocket",
+      "fillet",
+      "other"
+     ],
+     "rows_true_cols_pred": [
+      [
+       72,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       52,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       44,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       16,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ]
+     ]
+    },
+    "per_class": {
+     "planar": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 72
+     },
+     "hole": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 52
+     },
+     "slot": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 44
+     },
+     "pocket": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+     },
+     "fillet": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 16
+     },
+     "other": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+     }
+    },
+    "summary": {
+     "accuracy": 1.0,
+     "macro_f1_present_classes": 1.0,
+     "n_faces": 184,
+     "classes_present": 4
+    }
+   },
+   "models": {
+    "gnn": {
+     "test_accuracy_mean": 0.9529,
+     "test_accuracy_std": 0.052,
+     "test_macro_f1_mean": 0.9549,
+     "test_macro_f1_std": 0.0511,
+     "runs": [
+      {
+       "seed": 0,
+       "run_id": "tr_c9656e59a250d98e",
+       "best_epoch": 5,
+       "duration_s": 15.91,
+       "accuracy": 0.8804,
+       "macro_f1_present_classes": 0.8835,
+       "n_faces": 184,
+       "classes_present": 4
+      },
+      {
+       "seed": 1,
+       "run_id": "tr_811e7c0af2a21d73",
+       "best_epoch": 11,
+       "duration_s": 14.79,
+       "accuracy": 1.0,
+       "macro_f1_present_classes": 1.0,
+       "n_faces": 184,
+       "classes_present": 4
+      },
+      {
+       "seed": 2,
+       "run_id": "tr_2aa05ac31c6c0a92",
+       "best_epoch": 16,
+       "duration_s": 12.78,
+       "accuracy": 0.9783,
+       "macro_f1_present_classes": 0.9813,
+       "n_faces": 184,
+       "classes_present": 4
+      }
+     ],
+     "seed0_per_class": {
+      "planar": {
+       "precision": 0.766,
+       "recall": 1.0,
+       "f1": 0.8675,
+       "support": 72
+      },
+      "hole": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 52
+      },
+      "slot": {
+       "precision": 1.0,
+       "recall": 0.5,
+       "f1": 0.6667,
+       "support": 44
+      },
+      "pocket": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      },
+      "fillet": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 16
+      },
+      "other": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      }
+     },
+     "seed0_confusion": {
+      "labels": [
+       "planar",
+       "hole",
+       "slot",
+       "pocket",
+       "fillet",
+       "other"
+      ],
+      "rows_true_cols_pred": [
+       [
+        72,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        52,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        22,
+        0,
+        22,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        16,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "mlp": {
+     "test_accuracy_mean": 0.971,
+     "test_accuracy_std": 0.0244,
+     "test_macro_f1_mean": 0.9757,
+     "test_macro_f1_std": 0.0207,
+     "runs": [
+      {
+       "seed": 0,
+       "run_id": "tr_7debf9171f91a7bd",
+       "best_epoch": 109,
+       "duration_s": 3.26,
+       "accuracy": 1.0,
+       "macro_f1_present_classes": 1.0,
+       "n_faces": 184,
+       "classes_present": 4
+      },
+      {
+       "seed": 1,
+       "run_id": "tr_e333e869c02c4a77",
+       "best_epoch": 100,
+       "duration_s": 3.15,
+       "accuracy": 0.9402,
+       "macro_f1_present_classes": 0.9494,
+       "n_faces": 184,
+       "classes_present": 4
+      },
+      {
+       "seed": 2,
+       "run_id": "tr_d4c637052def97ff",
+       "best_epoch": 27,
+       "duration_s": 3.54,
+       "accuracy": 0.9728,
+       "macro_f1_present_classes": 0.9776,
+       "n_faces": 184,
+       "classes_present": 4
+      }
+     ],
+     "seed0_per_class": {
+      "planar": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 72
+      },
+      "hole": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 52
+      },
+      "slot": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 44
+      },
+      "pocket": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      },
+      "fillet": {
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0,
+       "support": 16
+      },
+      "other": {
+       "precision": 0.0,
+       "recall": 0.0,
+       "f1": 0.0,
+       "support": 0
+      }
+     },
+     "seed0_confusion": {
+      "labels": [
+       "planar",
+       "hole",
+       "slot",
+       "pocket",
+       "fillet",
+       "other"
+      ],
+      "rows_true_cols_pred": [
+       [
+        72,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        52,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        44,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        16,
+        0
+       ],
+       [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ]
+      ]
+     }
+    }
+   }
+  }
+ }
+}

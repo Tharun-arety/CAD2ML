@@ -1,0 +1,36 @@
+name: cad2ml
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - cadquery=2.5
+  - numpy<2.3
+  - scipy
+  - pillow
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cpu
+      - torch==2.5.1
+      - torch_geometric==2.6.1
+      - trimesh==4.5.3
+      - fastapi==0.115.6
+      - uvicorn[standard]==0.34.0
+      - python-multipart==0.0.20
+      - pydantic==2.10.4
+      - pydantic-settings==2.7.1
+      - sqlalchemy==2.0.36
+      - alembic==1.14.0
+      - psycopg[binary]==3.2.3
+      - redis==5.2.1
+      - fakeredis==2.26.2
+      - prometheus-client==0.21.1
+      - structlog==24.4.0
+      - httpx==0.28.1
+      - jsonschema==4.23.0
+      - psutil==6.1.1
+      - pytest==8.3.4
+      - pytest-timeout==2.3.1
+      - hypothesis==6.123.2
+      - ruff==0.8.6
+      - mypy==1.14.1
+      - pip-audit==2.7.3

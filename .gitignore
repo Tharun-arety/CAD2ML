@@ -1,0 +1,14 @@
+data/
+data_*.log
+*.pyc
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.env
+*.egg-info/
+build/
+dist/
+fixtures/corpus/
+.pytest_tmp/

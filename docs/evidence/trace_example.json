@@ -1,0 +1,141 @@
+{
+ "chain": {
+  "source": {
+   "filename": "housing__blind_holes__22003.step",
+   "sha256": "85f9592598d75be2f592eca16db7dd34242c7c6615ebeb01f04aca054d0e0d9c",
+   "original_units": "mm",
+   "source_key": "sources/85/85f9592598d75be2f592eca16db7dd34242c7c6615ebeb01f04aca054d0e0d9c.step"
+  },
+  "processing": {
+   "pipeline_version": "1.0.0",
+   "extractor_version": "1.0.0",
+   "parser_version": "OCP 7.7.2.1",
+   "configuration_hash": "3e6d22c8bd2f5b8b"
+  },
+  "brep_face": {
+   "face_id": "F015",
+   "surface_type": "cylinder",
+   "area_mm2": 217.73706,
+   "centroid_mm": [
+    17.754825,
+    17.754825,
+    29.278537
+   ],
+   "analytic_params": {
+    "axis": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "axis_origin": [
+     21.574544,
+     21.574544,
+     17.727227
+    ],
+    "radius": 6.0
+   },
+   "adjacent_face_ids": [
+    "F001",
+    "F004",
+    "F006",
+    "F007"
+   ],
+   "fingerprint": "2d7316122e1d7aa1"
+  },
+  "graph": {
+   "node_index": 15,
+   "neighbour_nodes": [
+    1,
+    4,
+    6,
+    7
+   ],
+   "feature_vector_head": [
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.00727,
+    5.38787
+   ]
+  },
+  "point_cloud": {
+   "point_range": [
+    3704,
+    3740
+   ],
+   "n_points": 36,
+   "range_text": "points 3704-3739 -> F015"
+  },
+  "mesh": {
+   "triangle_range": [
+    692,
+    710
+   ],
+   "n_triangles": 18
+  },
+  "views": {
+   "pixels_per_view": {
+    "0": 617,
+    "1": 0,
+    "2": 5,
+    "3": 0,
+    "4": 4,
+    "5": 0
+   }
+  },
+  "observation (computed)": {
+   "face_id": "F015",
+   "material_side": "outside",
+   "measurements": {
+    "angular_span_deg": 90.0,
+    "area_mm2": 217.73706,
+    "axis": [
+     -0.0,
+     -0.0,
+     -1.0
+    ],
+    "axis_origin_mm": [
+     21.574544,
+     21.574544,
+     17.727227
+    ],
+    "concave": true,
+    "radius_mm": 6.0
+   },
+   "surface_type": "cylinder"
+  },
+  "features (inferred)": [
+   {
+    "feature_id": "P001",
+    "feature_type": "pocket",
+    "parameters": {
+     "corner_radii_mm": [
+      6.0
+     ],
+     "depth_mm": 23.10262,
+     "floor_area_mm2": 1791.258541,
+     "floor_face": "F006",
+     "floor_normal": [
+      0.0,
+      0.0,
+      1.0
+     ]
+    },
+    "confidence": 0.95,
+    "inference_method": "deterministic_rule_v1"
+   }
+  ]
+ },
+ "verified": {
+  "graph_node_maps_to_face": true,
+  "points_carry_face_index": true,
+  "no_points_outside_range": true,
+  "triangles_carry_face_index": true,
+  "view_pixels_match_index": true,
+  "graph_neighbours_match_brep_adjacency": true
+ },
+ "all_links_verified": true
+}

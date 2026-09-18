@@ -1,0 +1,119 @@
+{
+ "run_id": "tr_c9656e59a250d98e",
+ "dataset_id": "ds_6b514ec0fcf2ea58",
+ "sample_id": "s_1a654205869352703559c8c5",
+ "rows": [
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F000",
+   "graph_node": 0,
+   "ground_truth": "planar",
+   "predicted": "planar",
+   "confidence": 0.9942
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F001",
+   "graph_node": 1,
+   "ground_truth": "planar",
+   "predicted": "planar",
+   "confidence": 0.9971
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F002",
+   "graph_node": 2,
+   "ground_truth": "slot",
+   "predicted": "planar",
+   "confidence": 0.6779
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F003",
+   "graph_node": 3,
+   "ground_truth": "planar",
+   "predicted": "planar",
+   "confidence": 1.0
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F004",
+   "graph_node": 4,
+   "ground_truth": "planar",
+   "predicted": "planar",
+   "confidence": 0.9999
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F005",
+   "graph_node": 5,
+   "ground_truth": "slot",
+   "predicted": "planar",
+   "confidence": 0.6792
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F006",
+   "graph_node": 6,
+   "ground_truth": "planar",
+   "predicted": "planar",
+   "confidence": 0.9967
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F007",
+   "graph_node": 7,
+   "ground_truth": "planar",
+   "predicted": "planar",
+   "confidence": 0.9903
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F008",
+   "graph_node": 8,
+   "ground_truth": "hole",
+   "predicted": "hole",
+   "confidence": 0.9921
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F009",
+   "graph_node": 9,
+   "ground_truth": "hole",
+   "predicted": "hole",
+   "confidence": 0.9921
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F010",
+   "graph_node": 10,
+   "ground_truth": "slot",
+   "predicted": "slot",
+   "confidence": 0.6888
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F011",
+   "graph_node": 11,
+   "ground_truth": "slot",
+   "predicted": "slot",
+   "confidence": 0.7056
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F012",
+   "graph_node": 12,
+   "ground_truth": "hole",
+   "predicted": "hole",
+   "confidence": 0.9921
+  },
+  {
+   "sample_id": "s_1a654205869352703559c8c5",
+   "face_id": "F013",
+   "graph_node": 13,
+   "ground_truth": "hole",
+   "predicted": "hole",
+   "confidence": 0.9921
+  }
+ ]
+}

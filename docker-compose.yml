@@ -1,0 +1,68 @@
+# Local, self-contained CAD2ML stack: `docker compose up --build`
+name: cad2ml
+
+x-app: &app
+  # built once by the `api` service; the other services reuse the same local image
+  image: cad2ml:1.0.0
+  pull_policy: never
+  env_file: [{ path: .env, required: false }]
+  environment: &appenv
+    CAD2ML_DATABASE_URL: postgresql+psycopg://cad2ml:${POSTGRES_PASSWORD:-cad2ml-local}@postgres:5432/cad2ml
+    CAD2ML_QUEUE_URL: redis://valkey:6379/0
+    CAD2ML_DATA_DIR: /data
+    CAD2ML_CORPUS_DIR: /data/corpus
+    CAD2ML_LOG_JSON: "true"
+    CAD2ML_ENABLE_FAULT_INJECTION: ${CAD2ML_ENABLE_FAULT_INJECTION:-false}
+  volumes: [cad2ml-data:/data]
+  depends_on:
+    postgres: { condition: service_healthy }
+    valkey: { condition: service_healthy }
+    migrate: { condition: service_completed_successfully }
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cad2ml
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cad2ml-local}
+      POSTGRES_DB: cad2ml
+    volumes: [pg-data:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U cad2ml"], interval: 5s, timeout: 3s, retries: 20 }
+    restart: unless-stopped
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    command: ["valkey-server", "--appendonly", "yes"]
+    volumes: [valkey-data:/data]
+    healthcheck: { test: ["CMD", "valkey-cli", "ping"], interval: 5s, timeout: 3s, retries: 20 }
+    restart: unless-stopped
+
+  migrate:
+    <<: *app
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: "no"
+
+  api:
+    <<: *app
+    build: { context: ., dockerfile: docker/Dockerfile }
+    pull_policy: build
+    ports: ["8000:8000"]
+    healthcheck: { test: ["CMD", "curl", "-fsS", "http://localhost:8000/health/ready"], interval: 10s, timeout: 5s, retries: 12 }
+
+  worker:
+    <<: *app
+    command: ["python", "-m", "apps.worker.main"]
+    environment:
+      <<: *appenv
+      CAD2ML_METRICS_PORT: "9100"
+    deploy: { replicas: 2 }
+    mem_limit: 3g   # real (resident) memory bound per worker incl. its isolated children
+    stop_grace_period: 60s
+
+volumes:
+  cad2ml-data:
+  pg-data:
+  valkey-data:

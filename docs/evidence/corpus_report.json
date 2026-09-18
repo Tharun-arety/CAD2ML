@@ -1,0 +1,758 @@
+{
+ "summary": {
+  "files": 83,
+  "completed": 75,
+  "rejected": 7,
+  "quarantined": 1,
+  "duplicates": 1
+ },
+ "rows": [
+  {
+   "file": "parts\\clevis__base_holes__3000.step",
+   "sample_id": "s_7a28b24ea35a4e80abb2f86d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 5.776,
+   "faces": 16
+  },
+  {
+   "file": "parts\\clevis__base_holes__3001.step",
+   "sample_id": "s_0d2f9388a40bf4e5da893857",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.236,
+   "faces": 16
+  },
+  {
+   "file": "parts\\clevis__base_holes__3002.step",
+   "sample_id": "s_f281f5788a6d22b1f1e6050f",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.442,
+   "faces": 16
+  },
+  {
+   "file": "parts\\clevis__base_holes__3003.step",
+   "sample_id": "s_e18c5cb5a2553ece6e833179",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.283,
+   "faces": 16
+  },
+  {
+   "file": "parts\\clevis__filleted__2000.step",
+   "sample_id": "s_6adefa175ec30fcec66c806b",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.332,
+   "faces": 14
+  },
+  {
+   "file": "parts\\clevis__filleted__2001.step",
+   "sample_id": "s_5265e11bc3cd183a9731de8d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.33,
+   "faces": 14
+  },
+  {
+   "file": "parts\\clevis__filleted__2002.step",
+   "sample_id": "s_d8dc3c6f7b5150cbdca71fcf",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.291,
+   "faces": 14
+  },
+  {
+   "file": "parts\\clevis__filleted__2003.step",
+   "sample_id": "s_2a8edfc2a6891c3243a70e09",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.2,
+   "faces": 14
+  },
+  {
+   "file": "parts\\clevis__plain__1000.step",
+   "sample_id": "s_78123dfd253c8188d5283562",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.084,
+   "faces": 12
+  },
+  {
+   "file": "parts\\clevis__plain__1001.step",
+   "sample_id": "s_b4f29980db15b5444975334d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.032,
+   "faces": 12
+  },
+  {
+   "file": "parts\\clevis__plain__1002.step",
+   "sample_id": "s_a74c62b28043154f2488781a",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.257,
+   "faces": 12
+  },
+  {
+   "file": "parts\\clevis__plain__1003.step",
+   "sample_id": "s_56aaa7408e15d057e5483fb9",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.314,
+   "faces": 12
+  },
+  {
+   "file": "parts\\flange__blind__13000.step",
+   "sample_id": "s_ea58ee1bce352cacaf8e482c",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.794,
+   "faces": 16
+  },
+  {
+   "file": "parts\\flange__blind__13001.step",
+   "sample_id": "s_40a663f6475e9a50472f0827",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.015,
+   "faces": 20
+  },
+  {
+   "file": "parts\\flange__blind__13002.step",
+   "sample_id": "s_d91034f2925409220732e491",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.194,
+   "faces": 12
+  },
+  {
+   "file": "parts\\flange__blind__13003.step",
+   "sample_id": "s_6a549f5f1f169e253276f971",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.072,
+   "faces": 14
+  },
+  {
+   "file": "parts\\flange__flat__11000.step",
+   "sample_id": "s_49a52ca2a19636dac1d791df",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.887,
+   "faces": 7
+  },
+  {
+   "file": "parts\\flange__flat__11001.step",
+   "sample_id": "s_d9a6a81259228e400217955f",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.651,
+   "faces": 9
+  },
+  {
+   "file": "parts\\flange__flat__11002.step",
+   "sample_id": "s_11d405c00cec8f9f0b4fd34c",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.214,
+   "faces": 12
+  },
+  {
+   "file": "parts\\flange__flat__11003.step",
+   "sample_id": "s_226db657689483e73df4ae3e",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.692,
+   "faces": 11
+  },
+  {
+   "file": "parts\\flange__hub__12000.step",
+   "sample_id": "s_e821d707cb95e827e5f25791",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.654,
+   "faces": 11
+  },
+  {
+   "file": "parts\\flange__hub__12001.step",
+   "sample_id": "s_f4b39a5e2b1e0b56454118e8",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.142,
+   "faces": 15
+  },
+  {
+   "file": "parts\\flange__hub__12002.step",
+   "sample_id": "s_4568cc6253625a4bc376ae27",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.289,
+   "faces": 11
+  },
+  {
+   "file": "parts\\flange__hub__12003.step",
+   "sample_id": "s_21d60d7a54ab468196b2f64d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.287,
+   "faces": 12
+  },
+  {
+   "file": "parts\\housing__blind_holes__22000.step",
+   "sample_id": "s_2f4d6803a6694416c6d9afa6",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.005,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__blind_holes__22001.step",
+   "sample_id": "s_9fabbd797f031f03bad71623",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.085,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__blind_holes__22002.step",
+   "sample_id": "s_d80edb6ede408e64c12cf951",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.032,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__blind_holes__22003.step",
+   "sample_id": "s_413e3207de9e44d902639da6",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.842,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__filleted__23000.step",
+   "sample_id": "s_06255e7ed7b5e59e5d521e4e",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.933,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__filleted__23001.step",
+   "sample_id": "s_f656222d2a9358deb9455191",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.412,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__filleted__23002.step",
+   "sample_id": "s_a120dc0ccb85b05d754cd472",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.436,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__filleted__23003.step",
+   "sample_id": "s_371b18467c9eeafd377fd0b7",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.307,
+   "faces": 23
+  },
+  {
+   "file": "parts\\housing__plain__21000.step",
+   "sample_id": "s_542a0eef0aaebf8df0251d19",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.33,
+   "faces": 19
+  },
+  {
+   "file": "parts\\housing__plain__21001.step",
+   "sample_id": "s_359ea0bfadb8c224feaae68d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.237,
+   "faces": 19
+  },
+  {
+   "file": "parts\\housing__plain__21002.step",
+   "sample_id": "s_3e3de34264ee4f22a7cecbf7",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.247,
+   "faces": 19
+  },
+  {
+   "file": "parts\\housing__plain__21003.step",
+   "sample_id": "s_d99870b1a40a49fe2864f3bb",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.282,
+   "faces": 19
+  },
+  {
+   "file": "parts\\mounting_bracket__filleted__32000.step",
+   "sample_id": "s_8a9b7f762757c6ceda3a2105",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.357,
+   "faces": 13
+  },
+  {
+   "file": "parts\\mounting_bracket__filleted__32001.step",
+   "sample_id": "s_1a7deef8d7e6925efbe4ec2d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.338,
+   "faces": 13
+  },
+  {
+   "file": "parts\\mounting_bracket__filleted__32002.step",
+   "sample_id": "s_28e47be566b3e0ab6900b104",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.102,
+   "faces": 13
+  },
+  {
+   "file": "parts\\mounting_bracket__filleted__32003.step",
+   "sample_id": "s_b4fd8900732fea8276387a3d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.127,
+   "faces": 13
+  },
+  {
+   "file": "parts\\mounting_bracket__plain__31000.step",
+   "sample_id": "s_0f62f69853c5ca242290aa7f",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.14,
+   "faces": 12
+  },
+  {
+   "file": "parts\\mounting_bracket__plain__31001.step",
+   "sample_id": "s_d7d05933c521fb91c8c7dc4c",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.159,
+   "faces": 12
+  },
+  {
+   "file": "parts\\mounting_bracket__plain__31002.step",
+   "sample_id": "s_427bf4a908b9d0eca0e74cf2",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.21,
+   "faces": 12
+  },
+  {
+   "file": "parts\\mounting_bracket__plain__31003.step",
+   "sample_id": "s_ae8017a07db79006205487db",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.381,
+   "faces": 12
+  },
+  {
+   "file": "parts\\mounting_bracket__slotted__33000.step",
+   "sample_id": "s_0fdc784c4496334a56432758",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.293,
+   "faces": 15
+  },
+  {
+   "file": "parts\\mounting_bracket__slotted__33001.step",
+   "sample_id": "s_6f0daebd17f772e985c22afc",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.213,
+   "faces": 15
+  },
+  {
+   "file": "parts\\mounting_bracket__slotted__33002.step",
+   "sample_id": "s_4dcb6452f7a6ee596919db71",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.291,
+   "faces": 15
+  },
+  {
+   "file": "parts\\mounting_bracket__slotted__33003.step",
+   "sample_id": "s_30ba5d11edc154ab6eba1560",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.179,
+   "faces": 15
+  },
+  {
+   "file": "parts\\shaft_support__filleted__43000.step",
+   "sample_id": "s_3f66cea69a9761eeafb73968",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.152,
+   "faces": 17
+  },
+  {
+   "file": "parts\\shaft_support__filleted__43001.step",
+   "sample_id": "s_7a4564420a7d36b08033e771",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.124,
+   "faces": 17
+  },
+  {
+   "file": "parts\\shaft_support__filleted__43002.step",
+   "sample_id": "s_983c08bdd0803d6582373071",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.193,
+   "faces": 17
+  },
+  {
+   "file": "parts\\shaft_support__filleted__43003.step",
+   "sample_id": "s_cb45f167992292328a3edc6f",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.272,
+   "faces": 17
+  },
+  {
+   "file": "parts\\shaft_support__plain__41000.step",
+   "sample_id": "s_eb54e2c1b5fccd98f0524003",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.129,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__plain__41001.step",
+   "sample_id": "s_901199d0a9553793b98340fa",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.02,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__plain__41002.step",
+   "sample_id": "s_e324a89b1240dfc7d67bc752",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.121,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__plain__41003.step",
+   "sample_id": "s_ddeb726595d48a9655e665b4",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.137,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__rounded__42000.step",
+   "sample_id": "s_7cca3a127bd4ee84b4d7f8ed",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.529,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__rounded__42001.step",
+   "sample_id": "s_fa5c814a1af7cab540b9a445",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.092,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__rounded__42002.step",
+   "sample_id": "s_75ed28b3186835396036f4f8",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.174,
+   "faces": 13
+  },
+  {
+   "file": "parts\\shaft_support__rounded__42003.step",
+   "sample_id": "s_595ea1ca1542990a8c496cae",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.356,
+   "faces": 13
+  },
+  {
+   "file": "parts\\slotted_plate__holes_only__51000.step",
+   "sample_id": "s_e6c7d39514203e2d5fc5e953",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.356,
+   "faces": 11
+  },
+  {
+   "file": "parts\\slotted_plate__holes_only__51001.step",
+   "sample_id": "s_fcdd9c6b513d58a021fd5b72",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.342,
+   "faces": 11
+  },
+  {
+   "file": "parts\\slotted_plate__holes_only__51002.step",
+   "sample_id": "s_85b4aa55f892500ce3ba9dd8",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.501,
+   "faces": 11
+  },
+  {
+   "file": "parts\\slotted_plate__holes_only__51003.step",
+   "sample_id": "s_687914e547eae515d9d32713",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.175,
+   "faces": 11
+  },
+  {
+   "file": "parts\\slotted_plate__slots__52000.step",
+   "sample_id": "s_0daf6b7b89843621ded87c94",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.24,
+   "faces": 18
+  },
+  {
+   "file": "parts\\slotted_plate__slots__52001.step",
+   "sample_id": "s_28b34094e61eed6941294541",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.222,
+   "faces": 14
+  },
+  {
+   "file": "parts\\slotted_plate__slots__52002.step",
+   "sample_id": "s_3f3955b8f9f759adbd852829",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.332,
+   "faces": 14
+  },
+  {
+   "file": "parts\\slotted_plate__slots__52003.step",
+   "sample_id": "s_1a654205869352703559c8c5",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.269,
+   "faces": 14
+  },
+  {
+   "file": "parts\\slotted_plate__slots_fillet__53000.step",
+   "sample_id": "s_5123caa06a4799d5a9cc8578",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.252,
+   "faces": 18
+  },
+  {
+   "file": "parts\\slotted_plate__slots_fillet__53001.step",
+   "sample_id": "s_82af39efd1896022ba136ba9",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.258,
+   "faces": 22
+  },
+  {
+   "file": "parts\\slotted_plate__slots_fillet__53002.step",
+   "sample_id": "s_c34e4a6e8ade4bc8af215f79",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.264,
+   "faces": 18
+  },
+  {
+   "file": "parts\\slotted_plate__slots_fillet__53003.step",
+   "sample_id": "s_a900fb09fe74460ccdbb1b53",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.223,
+   "faces": 22
+  },
+  {
+   "file": "failures\\assembly_two_parts.step",
+   "sample_id": "s_31a3a51cc4dcb2848f5c784d",
+   "status": "rejected",
+   "code": "UNSUPPORTED_ASSEMBLY",
+   "duplicate_of": null,
+   "seconds": 1.088,
+   "faces": null
+  },
+  {
+   "file": "failures\\compound_exported_as_assembly.step",
+   "sample_id": "s_03b8e67f5dffc1fd0ad0ad86",
+   "status": "rejected",
+   "code": "UNSUPPORTED_ASSEMBLY",
+   "duplicate_of": null,
+   "seconds": 1.156,
+   "faces": null
+  },
+  {
+   "file": "failures\\corrupt_truncated.step",
+   "sample_id": "s_26f63fb6dfbad1d9a3c2a362",
+   "status": "rejected",
+   "code": "STEP_PARSE_FAILED",
+   "duplicate_of": null,
+   "seconds": 1.086,
+   "faces": null
+  },
+  {
+   "file": "failures\\duplicate_of_part.step",
+   "sample_id": "s_78123dfd253c8188d5283562",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": "clevis__plain__1000.step",
+   "seconds": 0.016,
+   "faces": 12
+  },
+  {
+   "file": "failures\\empty.step",
+   "sample_id": "s_11c6e8ce8059e303662d421a",
+   "status": "rejected",
+   "code": "EMPTY_FILE",
+   "duplicate_of": null,
+   "seconds": 0.003,
+   "faces": null
+  },
+  {
+   "file": "failures\\large_plate_196_holes.step",
+   "sample_id": "s_cd715f48fce4c755f01e6d6d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 14.198,
+   "faces": 202
+  },
+  {
+   "file": "failures\\multi_body.step",
+   "sample_id": "s_c3495d51d046cd02a74b449c",
+   "status": "rejected",
+   "code": "MULTI_BODY",
+   "duplicate_of": null,
+   "seconds": 1.137,
+   "faces": null
+  },
+  {
+   "file": "failures\\open_shell.step",
+   "sample_id": "s_e2f30b0f3a7f7e520cc47149",
+   "status": "quarantined",
+   "code": "NO_SOLID",
+   "duplicate_of": null,
+   "seconds": 2.296,
+   "faces": null
+  },
+  {
+   "file": "failures\\png_renamed.step",
+   "sample_id": "s_bc87cc416c3c656106066324",
+   "status": "rejected",
+   "code": "NOT_STEP_CONTENT",
+   "duplicate_of": null,
+   "seconds": 0.002,
+   "faces": null
+  },
+  {
+   "file": "failures\\tiny_feature_hole_0p2mm.step",
+   "sample_id": "s_705c05221fa99192009398d2",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 2.959,
+   "faces": 7
+  },
+  {
+   "file": "failures\\wrong_extension.txt",
+   "sample_id": "s_002d5ae34bb56a5b17aa0d79",
+   "status": "rejected",
+   "code": "UNSUPPORTED_EXTENSION",
+   "duplicate_of": null,
+   "seconds": 0.002,
+   "faces": null
+  }
+ ]
+}

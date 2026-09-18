@@ -1,0 +1,728 @@
+{
+ "$defs": {
+  "ArtifactRef": {
+   "additionalProperties": false,
+   "properties": {
+    "key": {
+     "title": "Key",
+     "type": "string"
+    },
+    "sha256": {
+     "title": "Sha256",
+     "type": "string"
+    },
+    "bytes": {
+     "title": "Bytes",
+     "type": "integer"
+    },
+    "media_type": {
+     "title": "Media Type",
+     "type": "string"
+    },
+    "description": {
+     "title": "Description",
+     "type": "string"
+    }
+   },
+   "required": [
+    "key",
+    "sha256",
+    "bytes",
+    "media_type",
+    "description"
+   ],
+   "title": "ArtifactRef",
+   "type": "object"
+  },
+  "Evidence": {
+   "additionalProperties": false,
+   "properties": {
+    "check": {
+     "title": "Check",
+     "type": "string"
+    },
+    "passed": {
+     "title": "Passed",
+     "type": "boolean"
+    },
+    "detail": {
+     "title": "Detail",
+     "type": "string"
+    }
+   },
+   "required": [
+    "check",
+    "passed",
+    "detail"
+   ],
+   "title": "Evidence",
+   "type": "object"
+  },
+  "FeatureRecord": {
+   "additionalProperties": false,
+   "properties": {
+    "feature_id": {
+     "title": "Feature Id",
+     "type": "string"
+    },
+    "feature_type": {
+     "enum": [
+      "unknown",
+      "planar_face",
+      "cylindrical_hole_wall",
+      "through_hole",
+      "blind_hole",
+      "slot",
+      "pocket",
+      "fillet"
+     ],
+     "title": "Feature Type",
+     "type": "string"
+    },
+    "provenance": {
+     "const": "inferred",
+     "default": "inferred",
+     "title": "Provenance",
+     "type": "string"
+    },
+    "participating_faces": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Participating Faces",
+     "type": "array"
+    },
+    "parameters": {
+     "additionalProperties": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "title": "Parameters",
+     "type": "object"
+    },
+    "inference_method": {
+     "title": "Inference Method",
+     "type": "string"
+    },
+    "confidence": {
+     "maximum": 1.0,
+     "minimum": 0.0,
+     "title": "Confidence",
+     "type": "number"
+    },
+    "confidence_basis": {
+     "title": "Confidence Basis",
+     "type": "string"
+    },
+    "evidence": {
+     "items": {
+      "$ref": "#/$defs/Evidence"
+     },
+     "title": "Evidence",
+     "type": "array"
+    }
+   },
+   "required": [
+    "feature_id",
+    "feature_type",
+    "participating_faces",
+    "parameters",
+    "inference_method",
+    "confidence",
+    "confidence_basis",
+    "evidence"
+   ],
+   "title": "FeatureRecord",
+   "type": "object"
+  },
+  "GeometricObservation": {
+   "additionalProperties": false,
+   "description": "What was measured (computed provenance). Never a semantic claim.",
+   "properties": {
+    "face_id": {
+     "title": "Face Id",
+     "type": "string"
+    },
+    "surface_type": {
+     "title": "Surface Type",
+     "type": "string"
+    },
+    "material_side": {
+     "enum": [
+      "inside",
+      "outside",
+      "n/a"
+     ],
+     "title": "Material Side",
+     "type": "string"
+    },
+    "measurements": {
+     "additionalProperties": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "items": {
+         "type": "number"
+        },
+        "type": "array"
+       },
+       {
+        "type": "string"
+       },
+       {
+        "type": "boolean"
+       }
+      ]
+     },
+     "title": "Measurements",
+     "type": "object"
+    }
+   },
+   "required": [
+    "face_id",
+    "surface_type",
+    "material_side",
+    "measurements"
+   ],
+   "title": "GeometricObservation",
+   "type": "object"
+  },
+  "GeometrySummary": {
+   "additionalProperties": false,
+   "properties": {
+    "provenance": {
+     "$ref": "#/$defs/Provenance",
+     "default": "computed"
+    },
+    "units": {
+     "const": "mm",
+     "default": "mm",
+     "title": "Units",
+     "type": "string"
+    },
+    "body_count": {
+     "title": "Body Count",
+     "type": "integer"
+    },
+    "solid_count": {
+     "title": "Solid Count",
+     "type": "integer"
+    },
+    "shell_count": {
+     "title": "Shell Count",
+     "type": "integer"
+    },
+    "face_count": {
+     "title": "Face Count",
+     "type": "integer"
+    },
+    "edge_count": {
+     "title": "Edge Count",
+     "type": "integer"
+    },
+    "vertex_count": {
+     "title": "Vertex Count",
+     "type": "integer"
+    },
+    "volume_mm3": {
+     "title": "Volume Mm3",
+     "type": "number"
+    },
+    "surface_area_mm2": {
+     "title": "Surface Area Mm2",
+     "type": "number"
+    },
+    "bounding_box_min_mm": {
+     "items": {
+      "type": "number"
+     },
+     "title": "Bounding Box Min Mm",
+     "type": "array"
+    },
+    "bounding_box_max_mm": {
+     "items": {
+      "type": "number"
+     },
+     "title": "Bounding Box Max Mm",
+     "type": "array"
+    },
+    "bounding_box_mm": {
+     "items": {
+      "type": "number"
+     },
+     "title": "Bounding Box Mm",
+     "type": "array"
+    },
+    "center_of_mass_mm": {
+     "anyOf": [
+      {
+       "items": {
+        "type": "number"
+       },
+       "type": "array"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Center Of Mass Mm"
+    },
+    "surface_type_histogram": {
+     "additionalProperties": {
+      "type": "integer"
+     },
+     "title": "Surface Type Histogram",
+     "type": "object"
+    },
+    "curve_type_histogram": {
+     "additionalProperties": {
+      "type": "integer"
+     },
+     "title": "Curve Type Histogram",
+     "type": "object"
+    }
+   },
+   "required": [
+    "body_count",
+    "solid_count",
+    "shell_count",
+    "face_count",
+    "edge_count",
+    "vertex_count",
+    "volume_mm3",
+    "surface_area_mm2",
+    "bounding_box_min_mm",
+    "bounding_box_max_mm",
+    "bounding_box_mm",
+    "center_of_mass_mm",
+    "surface_type_histogram",
+    "curve_type_histogram"
+   ],
+   "title": "GeometrySummary",
+   "type": "object"
+  },
+  "ProcessingInfo": {
+   "additionalProperties": false,
+   "properties": {
+    "pipeline_version": {
+     "title": "Pipeline Version",
+     "type": "string"
+    },
+    "parser_version": {
+     "title": "Parser Version",
+     "type": "string"
+    },
+    "extractor_version": {
+     "title": "Extractor Version",
+     "type": "string"
+    },
+    "recognizer_version": {
+     "title": "Recognizer Version",
+     "type": "string"
+    },
+    "schema_version": {
+     "title": "Schema Version",
+     "type": "string"
+    },
+    "configuration_hash": {
+     "title": "Configuration Hash",
+     "type": "string"
+    },
+    "processed_at": {
+     "title": "Processed At",
+     "type": "string"
+    },
+    "stage_timings_s": {
+     "additionalProperties": {
+      "type": "number"
+     },
+     "title": "Stage Timings S",
+     "type": "object"
+    }
+   },
+   "required": [
+    "pipeline_version",
+    "parser_version",
+    "extractor_version",
+    "recognizer_version",
+    "schema_version",
+    "configuration_hash",
+    "processed_at"
+   ],
+   "title": "ProcessingInfo",
+   "type": "object"
+  },
+  "Provenance": {
+   "enum": [
+    "observed",
+    "computed",
+    "inferred",
+    "ground_truth",
+    "unavailable"
+   ],
+   "title": "Provenance",
+   "type": "string"
+  },
+  "QualityReport": {
+   "additionalProperties": false,
+   "properties": {
+    "passed": {
+     "title": "Passed",
+     "type": "boolean"
+    },
+    "checks": {
+     "additionalProperties": {
+      "type": "boolean"
+     },
+     "title": "Checks",
+     "type": "object"
+    },
+    "details": {
+     "additionalProperties": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "integer"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "title": "Details",
+     "type": "object"
+    }
+   },
+   "required": [
+    "passed",
+    "checks",
+    "details"
+   ],
+   "title": "QualityReport",
+   "type": "object"
+  },
+  "Rejection": {
+   "additionalProperties": false,
+   "properties": {
+    "code": {
+     "title": "Code",
+     "type": "string"
+    },
+    "stage": {
+     "title": "Stage",
+     "type": "string"
+    },
+    "message": {
+     "title": "Message",
+     "type": "string"
+    },
+    "retryable": {
+     "default": false,
+     "title": "Retryable",
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "code",
+    "stage",
+    "message"
+   ],
+   "title": "Rejection",
+   "type": "object"
+  },
+  "SampleStatus": {
+   "enum": [
+    "completed",
+    "rejected",
+    "quarantined",
+    "failed"
+   ],
+   "title": "SampleStatus",
+   "type": "string"
+  },
+  "SourceInfo": {
+   "additionalProperties": false,
+   "properties": {
+    "filename": {
+     "title": "Filename",
+     "type": "string"
+    },
+    "sha256": {
+     "title": "Sha256",
+     "type": "string"
+    },
+    "size_bytes": {
+     "title": "Size Bytes",
+     "type": "integer"
+    },
+    "format": {
+     "const": "STEP",
+     "default": "STEP",
+     "title": "Format",
+     "type": "string"
+    },
+    "original_units": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Original Units"
+    },
+    "original_units_provenance": {
+     "$ref": "#/$defs/Provenance",
+     "default": "observed"
+    },
+    "step_schema": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Step Schema"
+    },
+    "originating_system": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Originating System"
+    }
+   },
+   "required": [
+    "filename",
+    "sha256",
+    "size_bytes"
+   ],
+   "title": "SourceInfo",
+   "type": "object"
+  },
+  "ValidationReport": {
+   "additionalProperties": false,
+   "properties": {
+    "source_valid": {
+     "title": "Source Valid",
+     "type": "boolean"
+    },
+    "closed_solid": {
+     "title": "Closed Solid",
+     "type": "boolean"
+    },
+    "orientation_ok": {
+     "title": "Orientation Ok",
+     "type": "boolean"
+    },
+    "repair_attempted": {
+     "title": "Repair Attempted",
+     "type": "boolean"
+    },
+    "repaired_valid": {
+     "anyOf": [
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Repaired Valid"
+    },
+    "repair_operations": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Repair Operations",
+     "type": "array"
+    },
+    "max_deviation_mm": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Max Deviation Mm"
+    },
+    "volume_relative_change": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "default": null,
+     "title": "Volume Relative Change"
+    },
+    "warnings": {
+     "items": {
+      "type": "string"
+     },
+     "title": "Warnings",
+     "type": "array"
+    }
+   },
+   "required": [
+    "source_valid",
+    "closed_solid",
+    "orientation_ok",
+    "repair_attempted",
+    "repaired_valid"
+   ],
+   "title": "ValidationReport",
+   "type": "object"
+  }
+ },
+ "additionalProperties": false,
+ "properties": {
+  "sample_id": {
+   "title": "Sample Id",
+   "type": "string"
+  },
+  "status": {
+   "$ref": "#/$defs/SampleStatus"
+  },
+  "source": {
+   "$ref": "#/$defs/SourceInfo"
+  },
+  "processing": {
+   "$ref": "#/$defs/ProcessingInfo"
+  },
+  "geometry": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/GeometrySummary"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "validation": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/ValidationReport"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "rejection": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/Rejection"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "artifacts": {
+   "additionalProperties": {
+    "$ref": "#/$defs/ArtifactRef"
+   },
+   "title": "Artifacts",
+   "type": "object"
+  },
+  "observations": {
+   "items": {
+    "$ref": "#/$defs/GeometricObservation"
+   },
+   "title": "Observations",
+   "type": "array"
+  },
+  "features": {
+   "items": {
+    "$ref": "#/$defs/FeatureRecord"
+   },
+   "title": "Features",
+   "type": "array"
+  },
+  "quality": {
+   "anyOf": [
+    {
+     "$ref": "#/$defs/QualityReport"
+    },
+    {
+     "type": "null"
+    }
+   ],
+   "default": null
+  },
+  "lineage": {
+   "additionalProperties": {
+    "anyOf": [
+     {
+      "type": "string"
+     },
+     {
+      "items": {
+       "type": "string"
+      },
+      "type": "array"
+     },
+     {
+      "additionalProperties": {
+       "type": "string"
+      },
+      "type": "object"
+     }
+    ]
+   },
+   "title": "Lineage",
+   "type": "object"
+  },
+  "unavailable": {
+   "items": {
+    "type": "string"
+   },
+   "title": "Unavailable",
+   "type": "array"
+  }
+ },
+ "required": [
+  "sample_id",
+  "status",
+  "source",
+  "processing"
+ ],
+ "title": "Manifest",
+ "type": "object"
+}

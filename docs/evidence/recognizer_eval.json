@@ -1,0 +1,149 @@
+{
+ "samples": 72,
+ "global_dimensions": {
+  "max_abs_bbox_error_mm": 4.985825228231988e-07,
+  "mean_max_abs_bbox_error_mm": 3.582705069406068e-07
+ },
+ "face_level_rule_vs_ground_truth": {
+  "confusion_matrix": {
+   "labels": [
+    "planar",
+    "hole",
+    "slot",
+    "pocket",
+    "fillet",
+    "other"
+   ],
+   "rows_true_cols_pred": [
+    [
+     468,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     334,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     96,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     108,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     68,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     20
+    ]
+   ]
+  },
+  "per_class": {
+   "planar": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 468
+   },
+   "hole": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 334
+   },
+   "slot": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 96
+   },
+   "pocket": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 108
+   },
+   "fillet": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 68
+   },
+   "other": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "support": 20
+   }
+  },
+  "summary": {
+   "accuracy": 1.0,
+   "macro_f1_present_classes": 1.0,
+   "n_faces": 1094,
+   "classes_present": 6
+  }
+ },
+ "feature_level": {
+  "through_hole": {
+   "tp": 244,
+   "fp": 0,
+   "fn": 0,
+   "precision": 1.0,
+   "recall": 1.0
+  },
+  "blind_hole": {
+   "tp": 39,
+   "fp": 0,
+   "fn": 0,
+   "precision": 1.0,
+   "recall": 1.0
+  },
+  "slot": {
+   "tp": 27,
+   "fp": 0,
+   "fn": 0,
+   "precision": 1.0,
+   "recall": 1.0
+  },
+  "pocket": {
+   "tp": 12,
+   "fp": 0,
+   "fn": 0,
+   "precision": 1.0,
+   "recall": 1.0
+  }
+ },
+ "hole_diameter_abs_error_mm": {
+  "max": 0.0,
+  "mean": 0.0,
+  "n": 283
+ },
+ "samples_with_face_label_errors": []
+}

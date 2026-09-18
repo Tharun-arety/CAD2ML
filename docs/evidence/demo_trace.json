@@ -1,0 +1,138 @@
+{
+ "chain": {
+  "source": {
+   "filename": "clevis__base_holes__3000.step",
+   "sha256": "1ad7c1e89dc9efd56c244db8d36be31d3621b537e1499b4c92de9f21265299fc",
+   "original_units": "mm",
+   "source_key": "sources/1a/1ad7c1e89dc9efd56c244db8d36be31d3621b537e1499b4c92de9f21265299fc.step"
+  },
+  "processing": {
+   "pipeline_version": "1.0.0",
+   "extractor_version": "1.0.0",
+   "parser_version": "OCP 7.7.2.1",
+   "configuration_hash": "a0ffc99f5a2ae63d"
+  },
+  "brep_face": {
+   "face_id": "F012",
+   "surface_type": "cylinder",
+   "area_mm2": 333.785072,
+   "centroid_mm": [
+    8.172853,
+    14.960597,
+    42.021427
+   ],
+   "analytic_params": {
+    "axis": [
+     -1.0,
+     -0.0,
+     0.0
+    ],
+    "axis_origin": [
+     -1.0,
+     14.960597,
+     42.021427
+    ],
+    "radius": 3.25
+   },
+   "adjacent_face_ids": [
+    "F000",
+    "F003"
+   ],
+   "fingerprint": "657ed2aff1e559e2"
+  },
+  "graph": {
+   "node_index": 12,
+   "neighbour_nodes": [
+    0,
+    3
+   ],
+   "feature_vector_head": [
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.02481,
+    5.81349
+   ]
+  },
+  "point_cloud": {
+   "point_range": [
+    3770,
+    3877
+   ],
+   "n_points": 107,
+   "range_text": "points 3770-3876 -> F012"
+  },
+  "mesh": {
+   "triangle_range": [
+    324,
+    396
+   ],
+   "n_triangles": 72
+  },
+  "views": {
+   "pixels_per_view": {
+    "0": 83,
+    "1": 12,
+    "2": 360,
+    "3": 146,
+    "4": 88,
+    "5": 0
+   }
+  },
+  "observation (computed)": {
+   "face_id": "F012",
+   "material_side": "outside",
+   "measurements": {
+    "angular_span_deg": 360.0,
+    "area_mm2": 333.785072,
+    "axis": [
+     -1.0,
+     -0.0,
+     0.0
+    ],
+    "axis_origin_mm": [
+     -1.0,
+     14.960597,
+     42.021427
+    ],
+    "concave": true,
+    "radius_mm": 3.25
+   },
+   "surface_type": "cylinder"
+  },
+  "features (inferred)": [
+   {
+    "feature_id": "H001",
+    "feature_type": "through_hole",
+    "parameters": {
+     "axis": [
+      1.0,
+      0.0,
+      -0.0
+     ],
+     "axis_point_mm": [
+      0.0,
+      14.960597,
+      42.021427
+     ],
+     "diameter_mm": 6.5,
+     "length_mm": 16.35
+    },
+    "confidence": 0.95,
+    "inference_method": "deterministic_rule_v1"
+   }
+  ]
+ },
+ "verified": {
+  "graph_node_maps_to_face": true,
+  "points_carry_face_index": true,
+  "no_points_outside_range": true,
+  "triangles_carry_face_index": true,
+  "view_pixels_match_index": true,
+  "graph_neighbours_match_brep_adjacency": true
+ },
+ "all_links_verified": true
+}

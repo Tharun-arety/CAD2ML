@@ -1,0 +1,48 @@
+
+=== 1. synthetic corpus
+reusing corpus at fixtures\corpus
+
+=== 2. upload + asynchronous processing
+72 parts -> {'completed': 72} in 163s
+
+=== 3. failure fixtures
+  empty.step                               upload rejected: EMPTY_FILE
+  png_renamed.step                         upload rejected: NOT_STEP_CONTENT
+  wrong_extension.txt                      upload rejected: UNSUPPORTED_EXTENSION
+  duplicate_of_part.step                   completed      (idempotent: existing job)
+  compound_exported_as_assembly.step       rejected     UNSUPPORTED_ASSEMBLY
+  assembly_two_parts.step                  rejected     UNSUPPORTED_ASSEMBLY
+  corrupt_truncated.step                   rejected     STEP_PARSE_FAILED
+  multi_body.step                          rejected     MULTI_BODY
+  open_shell.step                          quarantined  NO_SOLID
+  tiny_feature_hole_0p2mm.step             completed    
+  large_plate_196_holes.step               completed    
+
+=== 4. entity lineage for one face
+  points 3770-3876 -> F012
+  -> B-Rep face F012 (cylinder)
+  -> H001 through_hole (confidence 0.95)
+  -> source clevis__base_holes__3000.step (1ad7c1e89dc9...)
+  -> pipeline 1.0.0, config a0ffc99f5a2ae63d
+  all links verified: True
+
+=== 5. dataset version
+ "dataset_id": "ds_8d9c13a77224fc07",
+ "split_sizes": {
+  "test": 12,
+  "train": 48,
+  "val": 12
+ },
+ "leakage_passed": true,
+ "excluded": 7
+}
+
+=== 6. baseline training (worker jobs)
+  gnn: run tr_bff884c4e7be1825 test accuracy 1.0 macro-F1 1.0 (196 faces)
+  mlp: run tr_af8cad3000661ab9 test accuracy 1.0 macro-F1 1.0 (196 faces)
+
+=== 7. inference on a held-out test sample
+  sample s_17dfd3b86bcdfc434b9c6cb1 (split=test): 13 faces, 0 wrong
+
+Outputs written to A:\Fullstack projects\CAD ML pipeline\data\demo_outputs. Inspector UI: http://127.0.0.1:8765/
+exit=0

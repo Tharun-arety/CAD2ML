@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAD2ML Inspector</title>
+<style>
+  :root { --bg:#f6f7f9; --panel:#fff; --ink:#1d2330; --muted:#667085; --line:#e3e6eb; --accent:#e8590c; --ok:#2f9e44; --bad:#c92a2a; --warn:#e67700; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:14px 20px; border-bottom:1px solid var(--line); background:var(--panel); display:flex; gap:16px; align-items:baseline; flex-wrap:wrap; }
+  header h1 { font-size:17px; margin:0; } header span { color:var(--muted); }
+  main { display:grid; grid-template-columns: 330px minmax(0,1fr) 380px; gap:14px; padding:14px; }
+  @media (max-width: 1100px) { main { grid-template-columns: 1fr; } }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:14px; }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin:0 0 8px; }
+  button, select, input { font:inherit; }
+  button { border:1px solid var(--line); background:#fff; border-radius:6px; padding:5px 10px; cursor:pointer; }
+  button.primary { background:var(--ink); color:#fff; border-color:var(--ink); }
+  table { border-collapse:collapse; width:100%; } td, th { text-align:left; padding:3px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:500; width:44%; }
+  .mono { font-family: ui-monospace, Consolas, monospace; font-size:12px; word-break:break-all; }
+  .pill { display:inline-block; padding:1px 8px; border-radius:10px; font-size:12px; background:#eef0f3; }
+  .pill.ok { background:#e6f4ea; color:var(--ok);} .pill.bad { background:#fdecec; color:var(--bad);} .pill.warn{background:#fff4e0;color:var(--warn);}
+  .list { max-height:260px; overflow:auto; }
+  .list div { padding:4px 6px; border-radius:5px; cursor:pointer; } .list div:hover, .list div.sel { background:#eef0f3; }
+  .timeline div { padding:2px 0; border-left:2px solid var(--line); padding-left:8px; }
+  .views { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+  #viewimg { width:100%; max-width:512px; image-rendering:pixelated; border:1px solid var(--line); border-radius:6px; cursor:crosshair; display:block; }
+  .muted { color:var(--muted); } pre { white-space:pre-wrap; margin:0; }
+  #panel { max-width:100%; border:1px solid var(--line); border-radius:6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CAD2ML Inspector</h1>
+  <span>Every value on this page is read from the API: job records, manifests and artifacts.</span>
+</header>
+<main>
+  <div>
+    <section>
+      <h2>1 · Upload STEP</h2>
+      <input type="file" id="file" accept=".step,.stp">
+      <button class="primary" id="upload">Upload &amp; process</button>
+      <div id="uploadMsg" class="muted" style="margin-top:6px"></div>
+    </section>
+    <section>
+      <h2>Samples</h2>
+      <div class="list" id="samples"></div>
+    </section>
+    <section>
+      <h2>2 · Job stages</h2>
+      <div id="job" class="muted">Select or upload a sample.</div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+  </div>
+
+  <div>
+    <section>
+      <h2>5 · Views — click a face</h2>
+      <div class="views" id="viewbtns"></div>
+      <img id="viewimg" alt="rendered view">
+      <div class="muted" id="pickMsg" style="margin-top:6px">The image is the shaded render; the click is resolved against the stored face-ID mask.</div>
+    </section>
+    <section>
+      <h2>9 · Model prediction vs ground truth</h2>
+      <div>Run: <select id="runs"></select> <button id="predict">Show</button></div>
+      <div id="predMsg" class="muted" style="margin:6px 0"></div>
+      <img id="panel" alt="">
+    </section>
+  </div>
+
+  <div>
+    <section>
+      <h2>3–4 · Validity &amp; measurements</h2>
+      <div id="summary" class="muted">—</div>
+    </section>
+    <section>
+      <h2>6–7 · Selected face lineage</h2>
+      <div id="face" class="muted">—</div>
+    </section>
+    <section>
+      <h2>8 · Dataset quality</h2>
+      <div><select id="datasets"></select> <button id="dsBuild">Build dataset</button></div>
+      <div id="dsq" class="muted" style="margin-top:6px">—</div>
+    </section>
+  </div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const api = async (path, opts) => { const r = await fetch(path, opts); const t = await r.text(); let j; try { j = JSON.parse(t); } catch { j = t; } if (!r.ok) throw new Error((j && j.detail) || (j && j.error && j.error.code) || r.status); return j; };
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+const fmt = (v) => Array.isArray(v) ? v.map(x => typeof x === "number" ? +x.toFixed(4) : x).join(", ") : (typeof v === "number" ? +v.toFixed(4) : v);
+const pill = (state) => `<span class="pill ${state==="completed"?"ok":["rejected","quarantined","failed_terminal","timed_out"].includes(state)?"bad":"warn"}">${esc(state)}</span>`;
+let current = { sample: null, job: null, view: 0, faces: 0 };
+
+async function loadSamples() {
+  const d = await api("/v1/samples");
+  $("samples").innerHTML = d.samples.map(s => `<div data-s="${esc(s.sample_id)}" data-j="${esc(s.job_id)}">${pill(s.state)} ${esc(s.filename)}</div>`).join("") || '<span class="muted">none yet</span>';
+  [...$("samples").children].forEach(el => el.onclick = () => selectJob(el.dataset.j));
+}
+
+async function selectJob(jobId) {
+  current.job = jobId;
+  [...$("samples").children].forEach(el => el.classList.toggle("sel", el.dataset.j === jobId));
+  const j = await api(`/v1/jobs/${jobId}`);
+  const ev = await api(`/v1/jobs/${jobId}/events`);
+  $("job").innerHTML = `${pill(j.state)} attempts ${j.attempts}/${j.max_attempts}${j.error_code ? ` · <b>${esc(j.error_code)}</b>` : ""}<br><span class="mono">job ${esc(j.job_id)} · corr ${esc(j.correlation_id)}</span>`;
+  $("timeline").innerHTML = ev.events.map(e => `<div><span class="mono">${esc(e.at.slice(11,23))}</span> ${esc(e.state)} ${e.detail && e.detail.code ? `<b>${esc(e.detail.code)}</b>` : ""}</div>`).join("");
+  if (!["completed","rejected","quarantined","failed_terminal","timed_out"].includes(j.state)) { setTimeout(() => selectJob(jobId), 1000); return; }
+  if (j.sample_id) await selectSample(j.sample_id); else $("summary").textContent = j.error_message || "—";
+  loadSamples();
+}
+
+async function selectSample(sid) {
+  current.sample = sid;
+  const m = await api(`/v1/samples/${sid}`);
+  if (m.status !== "completed") {
+    $("summary").innerHTML = `${pill(m.status)}<br><b>${esc(m.rejection.code)}</b> at ${esc(m.rejection.stage)}<pre class="mono">${esc(m.rejection.message)}</pre>`;
+    $("viewimg").removeAttribute("src"); $("viewbtns").innerHTML = ""; return;
+  }
+  const g = m.geometry, v = m.validation;
+  current.faces = g.face_count;
+  const feats = {}; m.features.forEach(f => feats[f.feature_type] = (feats[f.feature_type] || 0) + 1);
+  $("summary").innerHTML = `<table>
+    <tr><th>source</th><td class="mono">${esc(m.source.filename)}<br>${esc(m.source.sha256.slice(0,16))}… · units ${esc(m.source.original_units)}</td></tr>
+    <tr><th>source valid</th><td>${v.source_valid ? pill("completed").replace("completed","valid") : '<span class="pill bad">invalid</span>'}</td></tr>
+    <tr><th>repair</th><td>${v.repair_attempted ? esc(v.repair_operations.join("; ")) + ` (max dev ${fmt(v.max_deviation_mm)} mm)` : "not attempted (not needed)"}</td></tr>
+    <tr><th>solids / faces / edges / vertices</th><td>${g.solid_count} / ${g.face_count} / ${g.edge_count} / ${g.vertex_count}</td></tr>
+    <tr><th>volume</th><td>${fmt(g.volume_mm3)} mm³</td></tr>
+    <tr><th>surface area</th><td>${fmt(g.surface_area_mm2)} mm²</td></tr>
+    <tr><th>bounding box</th><td>${fmt(g.bounding_box_mm)} mm</td></tr>
+    <tr><th>surface types</th><td>${esc(JSON.stringify(g.surface_type_histogram))}</td></tr>
+    <tr><th>inferred features</th><td>${esc(JSON.stringify(feats))}</td></tr>
+    <tr><th>output checks</th><td>${Object.values(m.quality.checks).filter(Boolean).length}/${Object.keys(m.quality.checks).length} passed</td></tr>
+    <tr><th>pipeline / config</th><td class="mono">${esc(m.processing.pipeline_version)} · ${esc(m.processing.configuration_hash)}</td></tr></table>`;
+  const nviews = Object.keys(m.artifacts).filter(k => /^view_\d+_rgb$/.test(k)).length;
+  $("viewbtns").innerHTML = [...Array(nviews).keys()].map(k => `<button data-k="${k}">view ${k}</button>`).join("");
+  [...$("viewbtns").children].forEach(b => b.onclick = () => showView(+b.dataset.k));
+  showView(0);
+}
+
+function showView(k) {
+  current.view = k;
+  $("viewimg").src = `/v1/samples/${current.sample}/artifacts/view_${k}_rgb`;
+}
+
+$("viewimg").onclick = async (ev) => {
+  const img = ev.target, r = img.getBoundingClientRect();
+  const x = Math.floor((ev.clientX - r.left) * img.naturalWidth / r.width);
+  const y = Math.floor((ev.clientY - r.top) * img.naturalHeight / r.height);
+  const p = await api(`/v1/samples/${current.sample}/views/${current.view}/pick?x=${x}&y=${y}`);
+  if (!p.face_id) { $("pickMsg").textContent = `pixel (${x}, ${y}) is background`; return; }
+  $("pickMsg").textContent = `pixel (${x}, ${y}) → ${p.face_id} (highlighted; blue dots = this face's point-cloud points projected into the view)`;
+  img.src = `/v1/samples/${current.sample}/views/${current.view}/highlight/${p.face_id}`;
+  const t = await api(`/v1/samples/${current.sample}/faces/${p.face_id}/trace`);
+  const c = t.chain, b = c.brep_face;
+  const obs = c["observation (computed)"], inf = c["features (inferred)"];
+  $("face").innerHTML = `<table>
+    <tr><th>face</th><td><b>${esc(b.face_id)}</b> · ${esc(b.surface_type)} · ${fmt(b.area_mm2)} mm²</td></tr>
+    <tr><th>centroid</th><td>${fmt(b.centroid_mm)}</td></tr>
+    <tr><th>analytic params</th><td class="mono">${esc(JSON.stringify(b.analytic_params))}</td></tr>
+    <tr><th>adjacent faces</th><td>${esc(b.adjacent_face_ids.join(", "))}</td></tr>
+    <tr><th>graph node</th><td>#${c.graph.node_index} · neighbours ${esc(c.graph.neighbour_nodes.join(", "))}</td></tr>
+    <tr><th>point cloud</th><td>${esc(c.point_cloud.range_text)} (${c.point_cloud.n_points} pts)</td></tr>
+    <tr><th>mesh</th><td>triangles ${c.mesh.triangle_range[0]}–${c.mesh.triangle_range[1]-1}</td></tr>
+    <tr><th>view pixels</th><td>${esc(JSON.stringify(c.views.pixels_per_view))}</td></tr>
+    <tr><th>observed (computed)</th><td class="mono">${esc(JSON.stringify(obs.measurements))}</td></tr>
+    <tr><th>inferred feature</th><td>${inf.map(f => `<b>${esc(f.feature_id)}</b> ${esc(f.feature_type)} · conf ${f.confidence}<br><span class="mono">${esc(JSON.stringify(f.parameters))}</span>`).join("<br>")}</td></tr>
+    <tr><th>source</th><td class="mono">${esc(c.source.filename)} · pipeline ${esc(c.processing.pipeline_version)}</td></tr>
+    <tr><th>links verified</th><td>${t.all_links_verified ? '<span class="pill ok">all verified</span>' : '<span class="pill bad">mismatch</span>'} <span class="muted">(${Object.keys(t.verified).length} checks)</span></td></tr></table>`;
+};
+
+$("upload").onclick = async () => {
+  const f = $("file").files[0]; if (!f) return;
+  const fd = new FormData(); fd.append("file", f);
+  try {
+    const up = await api("/v1/files", { method: "POST", body: fd });
+    const job = await api("/v1/jobs", { method: "POST", headers: {"content-type": "application/json"}, body: JSON.stringify({ file_id: up.file_id }) });
+    $("uploadMsg").textContent = `${up.duplicate ? "duplicate file (same sha256)" : "stored"} · job ${job.created ? "created" : "already existed (idempotent)"}`;
+    await loadSamples(); selectJob(job.job_id);
+  } catch (e) { $("uploadMsg").innerHTML = `<span class="pill bad">rejected</span> ${esc(e.message)}`; }
+};
+
+async function loadDatasets() {
+  const d = await api("/v1/datasets");
+  $("datasets").innerHTML = d.datasets.map(x => `<option>${esc(x.dataset_id)}</option>`).join("");
+  if (d.datasets.length) showQuality(d.datasets[0].dataset_id);
+  const r = await api("/v1/training-runs");
+  $("runs").innerHTML = r.training_runs.filter(x => x.state === "completed").map(x => `<option>${esc(x.run_id)}</option>`).join("");
+}
+async function showQuality(id) {
+  const q = (await api(`/v1/datasets/${id}/quality`)).quality;
+  $("dsq").innerHTML = `<table>
+    <tr><th>included / excluded</th><td>${q.included} / ${q.excluded}</td></tr>
+    <tr><th>split sizes</th><td>${esc(JSON.stringify(q.split_sizes))}</td></tr>
+    <tr><th>leakage check</th><td>${q.leakage.passed ? '<span class="pill ok">no group crosses splits</span>' : '<span class="pill bad">leak</span>'}</td></tr>
+    <tr><th>face classes (train)</th><td class="mono">${esc(JSON.stringify(q.class_distribution.train || {}))}</td></tr>
+    <tr><th>face classes (test)</th><td class="mono">${esc(JSON.stringify(q.class_distribution.test || {}))}</td></tr>
+    <tr><th>rejection reasons</th><td class="mono">${esc(JSON.stringify(q.rejection_reasons))}</td></tr>
+    <tr><th>rule vs GT face agreement</th><td>${(100*q.rule_recognizer_face_label_agreement).toFixed(1)}%</td></tr></table>`;
+}
+$("datasets").onchange = () => showQuality($("datasets").value);
+$("dsBuild").onclick = async () => { $("dsq").textContent = "building…"; await api("/v1/datasets", {method:"POST", headers:{"content-type":"application/json"}, body:"{}"}); loadDatasets(); };
+$("predict").onclick = async () => {
+  if (!current.sample || !$("runs").value) { $("predMsg").textContent = "select a completed sample and a finished run"; return; }
+  try {
+    const p = await api(`/v1/training-runs/${$("runs").value}/predictions/${current.sample}`);
+    const wrong = p.predictions.filter(r => r.ground_truth && r.ground_truth !== r.predicted).length;
+    $("predMsg").textContent = `sample is in split: ${p.dataset_split} · ${p.predictions.length} faces · ${wrong} wrong`;
+    $("panel").src = `/v1/training-runs/${$("runs").value}/predictions/${current.sample}/panel.png?view=${current.view}`;
+  } catch (e) { $("predMsg").textContent = e.message; }
+};
+loadSamples(); loadDatasets();
+</script>
+</body>
+</html>

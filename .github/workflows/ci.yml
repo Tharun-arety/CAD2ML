@@ -1,0 +1,61 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality-and-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yml
+          cache-environment: true
+      - name: Dependency proof (STEP write/read/traverse/mesh)
+        run: python scripts/spike_occt.py
+      - name: Format
+        run: ruff format --check cad2ml apps scripts tests
+      - name: Lint
+        run: ruff check cad2ml apps scripts tests
+      - name: Type check
+        run: mypy cad2ml apps
+      - name: Dependency audit
+        run: pip-audit --progress-spinner off || echo "::warning::pip-audit reported findings (see log)"
+      - name: Unit + geometry tests
+        run: pytest tests/unit tests/geometry -q
+      - name: Integration tests (pipeline, lineage, jobs/worker recovery, dataset, training smoke)
+        run: pytest tests/integration tests/golden -q
+      - name: Small end-to-end fixture run
+        run: |
+          python -m cad2ml.cli generate-corpus --out /tmp/corpus --per-variant 1
+          python -m cad2ml.cli --data /tmp/data process-corpus --corpus /tmp/corpus --report /tmp/report.json
+          python -m cad2ml.cli --data /tmp/data build-dataset --corpus /tmp/corpus
+
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: quality-and-tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image (runs the OCCT spike during build)
+        run: docker build -f docker/Dockerfile -t cad2ml:ci .
+      - name: Compose smoke test (postgres + valkey + migrate + api + worker)
+        run: |
+          docker compose up -d --wait api
+          curl -fsS http://localhost:8000/health/ready
+          docker compose exec -T postgres createdb -U cad2ml cad2ml_test
+          docker compose run --rm             -e CAD2ML_TEST_DATABASE_URL=postgresql+psycopg://cad2ml:cad2ml-local@postgres:5432/cad2ml_test             -e CAD2ML_TEST_QUEUE_URL=redis://valkey:6379/15             api pytest tests/integration/test_jobs_api_worker.py -q -p no:cacheprovider --basetemp=/tmp/pt
+          docker compose down -v
+      - name: Image vulnerability scan (informational)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: cad2ml:ci
+          severity: CRITICAL,HIGH
+          exit-code: "0"
