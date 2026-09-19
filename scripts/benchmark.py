@@ -32,6 +32,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from cad2ml.ingestion.intake import step_files  # noqa: E402
+
 TERMINAL = {"completed", "rejected", "failed_terminal", "timed_out", "quarantined"}
 
 
@@ -186,7 +188,7 @@ def main() -> int:
     ap.add_argument("--timeout", type=float, default=3600)
     a = ap.parse_args()
     corpus = Path(a.corpus).resolve()
-    files = sorted((corpus / "parts").glob("*.step")) + sorted(
+    files = step_files(corpus / "parts") + sorted(
         p
         for p in (corpus / "failures").glob("*")
         if p.name not in ("expected.json",) and not p.name.startswith("_")

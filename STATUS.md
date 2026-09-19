@@ -1,6 +1,6 @@
 # STATUS
 
-_Last updated: 2026-09-18. Every result below comes from a command run in this repository. The raw outputs are in
+_Last updated: 2026-09-19 (pipeline 1.1.0). Every result below comes from a command run in this repository. The raw outputs are in
 `docs/evidence/`._
 
 ## Where each release stands
@@ -15,21 +15,28 @@ All gates are verified in two environments:
 | R1 Canonical CAD processing | ✅ · ✅ | 83 files → 75 completed, 7 rejected, 1 quarantined, each with its expected code (`docs/evidence/corpus_report.json`; same outcomes in the compose demo and benchmark). |
 | R2 Aligned representations | ✅ · ✅ | `test_trace_face_across_all_representations` passes in both environments. The demo trace shows `all links verified: True` under config `3e6d22c8bd2f5b8b`. |
 | R3 Semantics & datasets | ✅ · ✅ | Identical-rebuild and leakage tests pass. Group and family datasets are built (`docs/evidence/baselines.json`). |
-| R4 Production operation | ✅ · ✅ | Worker hard-kill recovery, queue-loss reconciliation and duplicate delivery pass against **real PostgreSQL + Valkey** (5/5). Compose benchmark: p50 2.96 s / p95 3.70 s, 41.0 files/min. |
+| R4 Production operation | ✅ · ✅ | Worker hard-kill recovery, queue-loss reconciliation and duplicate delivery pass against **real PostgreSQL + Valkey** (5/5). Compose benchmark: p50 2.23 s / p95 2.41 s, 54.9 files/min. |
 | R5 ML proof & reviewer experience | ✅ · ✅ | `docker compose up --build` followed by `docker compose run --rm api python scripts/demo.py --api-url http://api:8000` ran end to end (`docs/evidence/demo_compose_run.txt`). The inspector UI was checked in a browser against the native stack. |
+| R6 Real-world robustness | 🔶 in progress | NIST MBE PMI models: 32/33 complete, 1 rejected (`UNSUPPORTED_TESSELLATED`). Cross-export consistency is measured (`docs/evidence/r6_nist_eval.json`, [docs/r6_real_world.md](docs/r6_real_world.md)). Open: a hole-by-hole audit against the NIST drawings/PMI. |
+
+GitHub Actions (first run, commit `0f0d81c`): the `quality-and-tests` job passed (format, lint, types, audit, unit,
+geometry and integration tests on ubuntu-latest). The `container` job failed at setup because of an invalid
+`trivy-action` tag, now fixed.
 
 ## Tests
 
-* Native: **66 passed** (151 s). Linux container: **66 passed** (91 s). Jobs/API/worker suite against PostgreSQL +
+* Native: **72 passed** (109 s). Linux container: **72 passed** (85 s). Jobs/API/worker suite against PostgreSQL +
   Valkey: **5 passed**. ruff format, ruff check and mypy (57 files) are clean.
+* R6 added: `.stp` discovery, auxiliary-geometry isolation, cone-tip blind holes, counterbored holes, forced-reprocess
+  persistence, and tolerant near-duplicate matching.
 * The golden geometry values reviewed on Windows match exactly on Linux (6/6).
 
 | Suite | Tests | Covers |
 |---|---|---|
-| unit/test_core_units | 23 | hashing, sanitization, intake rejections, units, config hash, storage path safety and atomic promote, canonical ordering, fingerprints, schema drift |
-| unit/test_math_and_splits | 8 | property tests: normalization inverse, allocation, split leakage, tool SDF, state machine, metrics, graph invariants |
-| geometry/test_brep_geometry | 11 | measurements, concavity, traversal-invariant IDs, repair vs quarantine, correspondence, 0.2 mm hole, determinism, face-ID views |
-| integration/test_pipeline_and_lineage | 9 | upload → manifest, idempotency, lineage trace, invalid inputs, all failure fixtures, timeout, no partial artifacts |
+| unit/test_core_units | 24 | `.stp` discovery, hashing, sanitization, intake rejections, units, config hash, storage path safety and atomic promote, canonical ordering, fingerprints, schema drift |
+| unit/test_math_and_splits | 9 | property tests: normalization inverse, allocation, split leakage, near-duplicate matching, tool SDF, state machine, metrics, graph invariants |
+| geometry/test_brep_geometry | 14 | measurements, concavity, traversal-invariant IDs, repair vs quarantine, auxiliary-geometry isolation, cone-tip blind hole, counterbored hole, correspondence, 0.2 mm hole, determinism, face-ID views |
+| integration/test_pipeline_and_lineage | 10 | upload → manifest, idempotency, lineage trace, invalid inputs, all failure fixtures, timeout, no partial artifacts, forced reprocess |
 | integration/test_jobs_api_worker | 5 | API idempotency, correlation ids, stage events, worker hard-kill recovery, queue loss, rejection/timeout, metrics |
 | integration/test_dataset_and_training | 4 | identical rebuild, leakage, label alignment, recognizer vs ground truth, training determinism, prediction → face |
 | golden/test_golden_outputs | 6 | reviewed outputs for six fixed parts |
@@ -43,17 +50,20 @@ All gates are verified in two environments:
 
   | Split | Rule | MLP | GNN |
   |---|---|---|---|
-  | group | 1.000 | 1.000 ± 0.000 | 0.934 ± 0.004 |
-  | family | 1.000 | 0.971 ± 0.024 | 0.953 ± 0.052 |
+  | group | 1.000 | 0.997 ± 0.005 | 0.986 ± 0.019 |
+  | family | 1.000 | 0.971 ± 0.013 | 0.917 ± 0.054 |
 
-  The GNN is sensitive to data order and platform (an earlier run gave 0.983/0.922, and the Linux seed-0 run gave 0.918).
-  It does not beat the MLP.
+  The GNN varies with data order and platform (0.934–0.986 group, 0.917–0.953 family across reruns). It does not beat
+  the MLP.
 * **Benchmark** (2 workers, 83 files):
 
   | Stack | Throughput | Latency p50 / p95 | Idempotent rerun |
   |---|---|---|---|
-  | compose | 41.0 files/min | 2.96 / 3.70 s | 0 new jobs |
-  | native | 18.3 files/min | 3.39 / 3.84 s | 0 new jobs |
+  | compose | 54.9 files/min | 2.23 / 2.41 s | 0 new jobs |
+  | native | 21.0 files/min | 2.98 / 3.30 s | 0 new jobs |
+
+* **Real-world (NIST, R6):** 32/33 files complete, volume agrees across exports for 10/11 parts, hole counts for 9/11,
+  canonical IDs for 0/11 (exporters split faces differently), 15.3 % of faces `unknown`.
 
 ## Issues found by the container run (fixed)
 
@@ -67,15 +77,14 @@ All gates are verified in two environments:
 
 ## Known limitations
 
-* Synthetic, axis-aligned, prismatic parts only (6 families, 18 variants). There has been no real-world CAD evaluation yet.
+* Real-world evaluation covers 11 NIST parts, with no hole-by-hole ground truth yet. The training data is synthetic only.
 * The recognizer has a limited vocabulary and is tuned on the evaluated families.
-* Canonical IDs aren't stable across edits. Revision matching is experimental.
+* Canonical IDs aren't stable across edits or across STEP exporters (D-017). Revision matching is experimental.
 * The image is 6.23 GB. Peak memory inside compose isn't measured.
 * Test sets are 12 parts, and classes are unevenly present across splits.
-* The GitHub Actions workflow is written but has not run (no remote repository has been configured).
 
 ## Next actions
 
-1. Push to a Git remote so the CI workflow runs.
-2. R6: real-world STEP evaluation with an audited label sample.
-3. A pre-forked child pool to cut the per-job isolation overhead.
+1. R6: hole-by-hole comparison against the NIST drawings / AP242 semantic PMI (hole callouts).
+2. R6: the Fusion 360 Gallery segmentation subset (real per-face operation labels) once download is approved.
+3. A pre-forked child pool to cut per-job isolation overhead.

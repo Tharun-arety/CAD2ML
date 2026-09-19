@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-18T15:04:49Z",
+ "generated_at": "2026-09-19T00:17:45Z",
  "mode": "existing stack (api-url)",
  "host": {
   "platform": "Windows-10-10.0.26200-SP0",
@@ -15,76 +15,76 @@
  "successful_files": 75,
  "rejected_files": 7,
  "failed_files": 1,
- "wall_clock_s": 121.54,
- "throughput_files_per_min": 40.97,
+ "wall_clock_s": 90.71,
+ "throughput_files_per_min": 54.9,
  "job_latency_s (claim->terminal, completed jobs)": {
   "n": 74,
-  "p50": 2.955,
-  "p95": 3.701,
-  "max": 9.188
+  "p50": 2.229,
+  "p95": 2.408,
+  "max": 7.069
  },
  "stage_timings_s": {
   "extract.artifact_write": {
-   "p50": 0.085,
-   "p95": 0.116
+   "p50": 0.067,
+   "p95": 0.075
   },
   "extract.canonical_entities": {
-   "p50": 0.035,
-   "p95": 0.056
+   "p50": 0.026,
+   "p95": 0.04
   },
   "extract.face_graph": {
-   "p50": 0.001,
+   "p50": 0.0,
    "p95": 0.001
   },
   "extract.feature_recognition": {
-   "p50": 0.002,
-   "p95": 0.003
+   "p50": 0.001,
+   "p95": 0.002
   },
   "extract.multi_view": {
-   "p50": 0.305,
-   "p95": 0.685
+   "p50": 0.24,
+   "p95": 0.472
   },
   "extract.output_validation": {
-   "p50": 0.01,
-   "p95": 0.014
+   "p50": 0.008,
+   "p95": 0.008
   },
   "extract.point_cloud": {
-   "p50": 0.049,
-   "p95": 0.072
+   "p50": 0.041,
+   "p95": 0.052
   },
   "extract.tessellation": {
-   "p50": 0.018,
-   "p95": 0.044
+   "p50": 0.013,
+   "p95": 0.028
   },
   "extract.validate_repair": {
-   "p50": 0.008,
-   "p95": 0.017
+   "p50": 0.006,
+   "p95": 0.013
   },
   "extract_isolated": {
-   "p50": 1.774,
-   "p95": 2.356
+   "p50": 1.323,
+   "p95": 1.556
   },
   "parse_isolated": {
-   "p50": 1.151,
-   "p95": 1.546
+   "p50": 0.857,
+   "p95": 0.95
   }
  },
  "artifact_bytes_per_sample": {
-  "mean": 544184,
-  "p95": 664381.95,
-  "total": 40269637
+  "mean": 544429,
+  "p95": 664643.1,
+  "total": 40287751
  },
  "peak_worker_rss_mb (all workers + isolated children)": "not measured (external stack)",
  "idempotent_rerun": {
   "resubmitted_files": 83,
   "new_jobs_created": 0,
-  "wall_clock_s": 7.4
+  "wall_clock_s": 7.27
  },
  "queue_depth_after": "0.0",
  "per_file": [
   {
    "file": "clevis__base_holes__3000.step",
-   "job_id": "j_1df34d070d644f29b785",
+   "job_id": "j_8964d3f0c0994b429b2e",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -92,7 +92,7 @@
   },
   {
    "file": "clevis__base_holes__3001.step",
-   "job_id": "j_4fa0890d8ca8411aa8df",
+   "job_id": "j_232bb4e111574e68ba56",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -100,7 +100,7 @@
   },
   {
    "file": "clevis__base_holes__3002.step",
-   "job_id": "j_0911c27a0b754195ba5a",
+   "job_id": "j_94b15b01bf1340b8aadf",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -108,7 +108,7 @@
   },
   {
    "file": "clevis__base_holes__3003.step",
-   "job_id": "j_8a24df83e01b4574a07e",
+   "job_id": "j_114fa51835764db9b548",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -116,7 +116,7 @@
   },
   {
    "file": "clevis__filleted__2000.step",
-   "job_id": "j_832e7624bc0547a4981f",
+   "job_id": "j_b3ef0b95818745a8acc2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -124,7 +124,7 @@
   },
   {
    "file": "clevis__filleted__2001.step",
-   "job_id": "j_31c8808d394e4ec08058",
+   "job_id": "j_569c2fceab61429e9ef6",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -132,7 +132,7 @@
   },
   {
    "file": "clevis__filleted__2002.step",
-   "job_id": "j_e3b7feeb4329415bb8c3",
+   "job_id": "j_d2221726f54640cab9bf",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -140,7 +140,7 @@
   },
   {
    "file": "clevis__filleted__2003.step",
-   "job_id": "j_d71f163e85d44a3791e6",
+   "job_id": "j_b6e23e5cb52b48228778",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -148,7 +148,7 @@
   },
   {
    "file": "clevis__plain__1000.step",
-   "job_id": "j_8cea1c05b563426fa2df",
+   "job_id": "j_6ff67a1bc4214c9595b3",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -156,7 +156,7 @@
   },
   {
    "file": "clevis__plain__1001.step",
-   "job_id": "j_4638ead174154925bfcc",
+   "job_id": "j_938dcf3f39414aa38ab6",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -164,7 +164,7 @@
   },
   {
    "file": "clevis__plain__1002.step",
-   "job_id": "j_3ce8f3dc672349f7a660",
+   "job_id": "j_1c7dfed31ba6484292e5",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -172,7 +172,7 @@
   },
   {
    "file": "clevis__plain__1003.step",
-   "job_id": "j_7b743566e206484987b8",
+   "job_id": "j_a6f52a012e0446ccb781",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -180,7 +180,7 @@
   },
   {
    "file": "flange__blind__13000.step",
-   "job_id": "j_7be75470402548baafe8",
+   "job_id": "j_46a260bc60464907ac89",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -188,7 +188,7 @@
   },
   {
    "file": "flange__blind__13001.step",
-   "job_id": "j_d0fc6f74db5241018233",
+   "job_id": "j_1e2c7128ffa043bb841b",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -196,7 +196,7 @@
   },
   {
    "file": "flange__blind__13002.step",
-   "job_id": "j_d0e63b92d6e84691a61c",
+   "job_id": "j_848e4aedf7994e7eaab7",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -204,7 +204,7 @@
   },
   {
    "file": "flange__blind__13003.step",
-   "job_id": "j_903c59b65be04f878e31",
+   "job_id": "j_05478e5a9c4644898b36",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -212,7 +212,7 @@
   },
   {
    "file": "flange__flat__11000.step",
-   "job_id": "j_1803f21af938455caa8f",
+   "job_id": "j_ac61c336e83a4afca9ff",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -220,7 +220,7 @@
   },
   {
    "file": "flange__flat__11001.step",
-   "job_id": "j_fbd8576611844c6fa08c",
+   "job_id": "j_88c8797df3884072b866",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -228,7 +228,7 @@
   },
   {
    "file": "flange__flat__11002.step",
-   "job_id": "j_83eabc9faf6648a2b274",
+   "job_id": "j_49e370a8b9ba4e9a88d2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -236,7 +236,7 @@
   },
   {
    "file": "flange__flat__11003.step",
-   "job_id": "j_1f88dc90dedc41679c57",
+   "job_id": "j_0ce69bb24da14db48e54",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -244,7 +244,7 @@
   },
   {
    "file": "flange__hub__12000.step",
-   "job_id": "j_2471c1bb0b0046b48625",
+   "job_id": "j_36575fe444f948d3a0bb",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -252,7 +252,7 @@
   },
   {
    "file": "flange__hub__12001.step",
-   "job_id": "j_75570d0ca7dc496fb77d",
+   "job_id": "j_29d4d1de3542486eb840",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -260,7 +260,7 @@
   },
   {
    "file": "flange__hub__12002.step",
-   "job_id": "j_49399252783049e28029",
+   "job_id": "j_e9fd63176c8249ac9431",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -268,7 +268,7 @@
   },
   {
    "file": "flange__hub__12003.step",
-   "job_id": "j_83c04c24e44a4a0c9e54",
+   "job_id": "j_06bb195905ab4ae5bef4",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -276,7 +276,7 @@
   },
   {
    "file": "housing__blind_holes__22000.step",
-   "job_id": "j_7a5539b191b04b3b9eaa",
+   "job_id": "j_5e994259c5194c7697c9",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -284,7 +284,7 @@
   },
   {
    "file": "housing__blind_holes__22001.step",
-   "job_id": "j_a36019bf45b14d17a053",
+   "job_id": "j_784c52f36ef04c28aff9",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -292,7 +292,7 @@
   },
   {
    "file": "housing__blind_holes__22002.step",
-   "job_id": "j_e8aab968702340b28a39",
+   "job_id": "j_a2b8c6f47d1644c1b096",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -300,7 +300,7 @@
   },
   {
    "file": "housing__blind_holes__22003.step",
-   "job_id": "j_4893f2a4f5a94ff189bb",
+   "job_id": "j_260d31f9f9614f0cac6a",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -308,7 +308,7 @@
   },
   {
    "file": "housing__filleted__23000.step",
-   "job_id": "j_4c2e8cb4454c43bb8aca",
+   "job_id": "j_c3797b3f2e2749529c19",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -316,7 +316,7 @@
   },
   {
    "file": "housing__filleted__23001.step",
-   "job_id": "j_cddc8a588af8489fb109",
+   "job_id": "j_27c6b30c6dc04c4087b4",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -324,7 +324,7 @@
   },
   {
    "file": "housing__filleted__23002.step",
-   "job_id": "j_2346c5087244448e89fe",
+   "job_id": "j_a1e5255d478c4d669e48",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -332,7 +332,7 @@
   },
   {
    "file": "housing__filleted__23003.step",
-   "job_id": "j_62da1d2ec56143a5a425",
+   "job_id": "j_fff7ec85c5134960ab00",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -340,7 +340,7 @@
   },
   {
    "file": "housing__plain__21000.step",
-   "job_id": "j_0888b36579a44cbc91c8",
+   "job_id": "j_7e3858b9dce5435ebd68",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -348,7 +348,7 @@
   },
   {
    "file": "housing__plain__21001.step",
-   "job_id": "j_443b24fa0d9c4306a2d7",
+   "job_id": "j_b1bce752ba5f4f4ca953",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -356,7 +356,7 @@
   },
   {
    "file": "housing__plain__21002.step",
-   "job_id": "j_d10818e6855f4069a8c8",
+   "job_id": "j_dffb72fea3c74962b93e",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -364,7 +364,7 @@
   },
   {
    "file": "housing__plain__21003.step",
-   "job_id": "j_1f65db686ede4888aeb9",
+   "job_id": "j_d9558726d9204befae1d",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -372,7 +372,7 @@
   },
   {
    "file": "mounting_bracket__filleted__32000.step",
-   "job_id": "j_f87b35f0cda8402b8472",
+   "job_id": "j_36faf24dbcbc46049366",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -380,7 +380,7 @@
   },
   {
    "file": "mounting_bracket__filleted__32001.step",
-   "job_id": "j_59d8c72c40fd4b98a712",
+   "job_id": "j_a4cebf2507c64721a536",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -388,7 +388,7 @@
   },
   {
    "file": "mounting_bracket__filleted__32002.step",
-   "job_id": "j_a23a7d1d8a8446a89061",
+   "job_id": "j_b5b63717281f47a28838",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -396,7 +396,7 @@
   },
   {
    "file": "mounting_bracket__filleted__32003.step",
-   "job_id": "j_1acf288212794dda87a2",
+   "job_id": "j_7a6e682ff3ac410fb4e4",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -404,7 +404,7 @@
   },
   {
    "file": "mounting_bracket__plain__31000.step",
-   "job_id": "j_5de1dee0a04b46549f0a",
+   "job_id": "j_3ca385f1d72542dfb00c",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -412,7 +412,7 @@
   },
   {
    "file": "mounting_bracket__plain__31001.step",
-   "job_id": "j_c18fb67d072c42a1b2e6",
+   "job_id": "j_182e84c50cc2469dad59",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -420,7 +420,7 @@
   },
   {
    "file": "mounting_bracket__plain__31002.step",
-   "job_id": "j_e46bb54c20dd4d3dbba4",
+   "job_id": "j_1666e3cbe9d5494db812",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -428,7 +428,7 @@
   },
   {
    "file": "mounting_bracket__plain__31003.step",
-   "job_id": "j_f0c46d5ae2cb47c880c2",
+   "job_id": "j_8894c92004da40189aa2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -436,7 +436,7 @@
   },
   {
    "file": "mounting_bracket__slotted__33000.step",
-   "job_id": "j_832dd4b7a0f142cfb50c",
+   "job_id": "j_bbdad6edd3124a95a03a",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -444,7 +444,7 @@
   },
   {
    "file": "mounting_bracket__slotted__33001.step",
-   "job_id": "j_5c8ad9a2eb4043ba9937",
+   "job_id": "j_8d47bc2ea3434833ada2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -452,7 +452,7 @@
   },
   {
    "file": "mounting_bracket__slotted__33002.step",
-   "job_id": "j_06a6961723d54d5ba21e",
+   "job_id": "j_042d12b50f37488a8f7f",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -460,7 +460,7 @@
   },
   {
    "file": "mounting_bracket__slotted__33003.step",
-   "job_id": "j_4a489fbed70b4cd5b87a",
+   "job_id": "j_b62b7e84010c4049b7a3",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -468,7 +468,7 @@
   },
   {
    "file": "shaft_support__filleted__43000.step",
-   "job_id": "j_0761cd77ff9f466b9182",
+   "job_id": "j_7a01aa0a7bef4a1abc2d",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -476,7 +476,7 @@
   },
   {
    "file": "shaft_support__filleted__43001.step",
-   "job_id": "j_febe3794270d49098b73",
+   "job_id": "j_c0328322a9ce4294af59",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -484,7 +484,7 @@
   },
   {
    "file": "shaft_support__filleted__43002.step",
-   "job_id": "j_1867da06787548b4bec7",
+   "job_id": "j_1b240e68a227458ea372",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -492,7 +492,7 @@
   },
   {
    "file": "shaft_support__filleted__43003.step",
-   "job_id": "j_0685c22e119f46cf823a",
+   "job_id": "j_09ae9ec80fa9452fb9d2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -500,7 +500,7 @@
   },
   {
    "file": "shaft_support__plain__41000.step",
-   "job_id": "j_37a1b9623eaf4fff9755",
+   "job_id": "j_3984bbd7abac4a6d8cb1",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -508,7 +508,7 @@
   },
   {
    "file": "shaft_support__plain__41001.step",
-   "job_id": "j_c0d97a3c4c49497f9c9e",
+   "job_id": "j_7ecb4572fb6b426597ac",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -516,7 +516,7 @@
   },
   {
    "file": "shaft_support__plain__41002.step",
-   "job_id": "j_51a1471542d142df8791",
+   "job_id": "j_c1cc0343af0b4e928ce7",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -524,7 +524,7 @@
   },
   {
    "file": "shaft_support__plain__41003.step",
-   "job_id": "j_f8548ad2b4f64350be19",
+   "job_id": "j_7356e8a7d2df4459baa3",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -532,7 +532,7 @@
   },
   {
    "file": "shaft_support__rounded__42000.step",
-   "job_id": "j_d85049dc207a4a7585a9",
+   "job_id": "j_a8de58dedfa04ae982ad",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -540,7 +540,7 @@
   },
   {
    "file": "shaft_support__rounded__42001.step",
-   "job_id": "j_84c6f89e4bc64cbca5c5",
+   "job_id": "j_29b8d8b1cd4b45de8a59",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -548,7 +548,7 @@
   },
   {
    "file": "shaft_support__rounded__42002.step",
-   "job_id": "j_76be61d432ce4ed0b8d7",
+   "job_id": "j_99e5bca1ebef49e185e8",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -556,7 +556,7 @@
   },
   {
    "file": "shaft_support__rounded__42003.step",
-   "job_id": "j_b9479c69f20a4ae19d09",
+   "job_id": "j_83ec7da514d048558f7f",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -564,7 +564,7 @@
   },
   {
    "file": "slotted_plate__holes_only__51000.step",
-   "job_id": "j_2eea38471aef4ca28c51",
+   "job_id": "j_27ca6af06c4e4beba47e",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -572,7 +572,7 @@
   },
   {
    "file": "slotted_plate__holes_only__51001.step",
-   "job_id": "j_458b3e06c5d44047931c",
+   "job_id": "j_3257f3ca57bd437abae8",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -580,7 +580,7 @@
   },
   {
    "file": "slotted_plate__holes_only__51002.step",
-   "job_id": "j_dfa3316067ed47e9b006",
+   "job_id": "j_153c6406d2ba4bbbbeea",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -588,7 +588,7 @@
   },
   {
    "file": "slotted_plate__holes_only__51003.step",
-   "job_id": "j_de9ba9096f6546388c6b",
+   "job_id": "j_94a2adbae7024ab9932d",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -596,7 +596,7 @@
   },
   {
    "file": "slotted_plate__slots__52000.step",
-   "job_id": "j_0a7ee82d78074ec58ff3",
+   "job_id": "j_e6e22710bc6b4d0a94f8",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -604,7 +604,7 @@
   },
   {
    "file": "slotted_plate__slots__52001.step",
-   "job_id": "j_7c6034a1033a4ecca32b",
+   "job_id": "j_cb2069b631d246c59ad9",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -612,7 +612,7 @@
   },
   {
    "file": "slotted_plate__slots__52002.step",
-   "job_id": "j_d38173336ced4bd79415",
+   "job_id": "j_339edaf6d60443d9b02c",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -620,7 +620,7 @@
   },
   {
    "file": "slotted_plate__slots__52003.step",
-   "job_id": "j_3a2f3624bed44e4d9eff",
+   "job_id": "j_b82d50b2abc54d30aab2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -628,7 +628,7 @@
   },
   {
    "file": "slotted_plate__slots_fillet__53000.step",
-   "job_id": "j_03c45b63f8e1465c96c3",
+   "job_id": "j_1d9482ac416e44dc95e1",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -636,7 +636,7 @@
   },
   {
    "file": "slotted_plate__slots_fillet__53001.step",
-   "job_id": "j_9efc0ab809614379a564",
+   "job_id": "j_62f73600961b4098832e",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -644,7 +644,7 @@
   },
   {
    "file": "slotted_plate__slots_fillet__53002.step",
-   "job_id": "j_3739b7d31bb043769064",
+   "job_id": "j_78d6bd0c939e4a2bbd3f",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -652,7 +652,7 @@
   },
   {
    "file": "slotted_plate__slots_fillet__53003.step",
-   "job_id": "j_89cb8aaa86904dc7bd00",
+   "job_id": "j_4f4b176feaf942f1a257",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -660,7 +660,7 @@
   },
   {
    "file": "assembly_two_parts.step",
-   "job_id": "j_3e29d15579ea45b68bd0",
+   "job_id": "j_579144851de647928c2a",
    "created": true,
    "file_duplicate": false,
    "state": "rejected",
@@ -668,7 +668,7 @@
   },
   {
    "file": "compound_exported_as_assembly.step",
-   "job_id": "j_539f7af1115044eca48f",
+   "job_id": "j_37f34776798546648c63",
    "created": true,
    "file_duplicate": false,
    "state": "rejected",
@@ -676,7 +676,7 @@
   },
   {
    "file": "corrupt_truncated.step",
-   "job_id": "j_f72117fdaa4d48cba429",
+   "job_id": "j_f9ece62cc3534c30bbb4",
    "created": true,
    "file_duplicate": false,
    "state": "rejected",
@@ -684,7 +684,7 @@
   },
   {
    "file": "duplicate_of_part.step",
-   "job_id": "j_8cea1c05b563426fa2df",
+   "job_id": "j_6ff67a1bc4214c9595b3",
    "created": false,
    "file_duplicate": true,
    "state": "completed",
@@ -699,7 +699,7 @@
   },
   {
    "file": "large_plate_196_holes.step",
-   "job_id": "j_f10741ed65f0482fa93f",
+   "job_id": "j_a35225d005394d50a7d2",
    "created": true,
    "file_duplicate": false,
    "state": "completed",
@@ -707,7 +707,7 @@
   },
   {
    "file": "multi_body.step",
-   "job_id": "j_4dcace5d62b9437796ae",
+   "job_id": "j_8195655899054da9b935",
    "created": true,
    "file_duplicate": false,
    "state": "rejected",
@@ -715,7 +715,7 @@
   },
   {
    "file": "open_shell.step",
-   "job_id": "j_cb39be61f0314a8c813d",
+   "job_id": "j_5592590e7a6a41c2aec4",
    "created": true,
    "file_duplicate": false,
    "state": "quarantined",
@@ -730,7 +730,7 @@
   },
   {
    "file": "tiny_feature_hole_0p2mm.step",
-   "job_id": "j_7e774e070f1c4581a837",
+   "job_id": "j_9b94995ccecf45d0b450",
    "created": true,
    "file_duplicate": false,
    "state": "completed",

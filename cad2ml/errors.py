@@ -29,6 +29,11 @@ ERROR_CODES: dict[str, ErrorSpec] = {
     "STEP_PARSE_FAILED": ErrorSpec(Outcome.rejected, False, "OCCT STEP reader could not read the file"),
     "STEP_NO_SHAPES": ErrorSpec(Outcome.rejected, False, "STEP file contains no transferable shapes"),
     "UNSUPPORTED_ASSEMBLY": ErrorSpec(Outcome.rejected, False, "Assemblies are not supported in v1"),
+    "UNSUPPORTED_TESSELLATED": ErrorSpec(
+        Outcome.rejected,
+        False,
+        "Faces without analytic/NURBS surfaces (tessellated STEP); v1 requires a B-Rep",
+    ),
     "MULTI_BODY": ErrorSpec(Outcome.rejected, False, "More than one solid body; v1 requires a single solid"),
     "NO_SOLID": ErrorSpec(Outcome.quarantined, False, "No closed solid (e.g. open shell or surfaces only)"),
     "INVALID_GEOMETRY": ErrorSpec(

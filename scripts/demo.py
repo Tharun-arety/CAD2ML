@@ -27,6 +27,8 @@ import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from cad2ml.ingestion.intake import step_files  # noqa: E402
+
 TERMINAL = {"completed", "rejected", "failed_terminal", "timed_out", "quarantined"}
 
 
@@ -74,7 +76,7 @@ def main() -> int:
         print(f"reusing corpus at {corpus}")
 
     step("2. upload + asynchronous processing")
-    parts = sorted((corpus / "parts").glob("*.step"))
+    parts = step_files(corpus / "parts")
     jobs = {}
     for p in parts:
         f = c.post("/v1/files", files={"file": (p.name, p.read_bytes(), "application/step")}).json()

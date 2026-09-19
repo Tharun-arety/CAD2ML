@@ -7,7 +7,7 @@
    "source_key": "sources/85/85f9592598d75be2f592eca16db7dd34242c7c6615ebeb01f04aca054d0e0d9c.step"
   },
   "processing": {
-   "pipeline_version": "1.0.0",
+   "pipeline_version": "1.1.0",
    "extractor_version": "1.0.0",
    "parser_version": "OCP 7.7.2.1",
    "configuration_hash": "3e6d22c8bd2f5b8b"

@@ -120,3 +120,38 @@ samples was permanently poisoned.
 The base image is pinned to `mambaorg/micromamba:2.9.0-ubuntu24.04`, since the originally chosen tag
 `2.0.5-jammy` does not exist.
 **Consequences.** The image is 6.23 GB (CadQuery/VTK + PyTorch). Slimming it is future work.
+
+### D-017 — 2026-09-19 — Canonical ID scope corrected by real data
+**Context.** On the NIST models (R6), exports of the same part from different exporters had different face counts
+(e.g. 487 / 635 / 663) and a canonical-fingerprint Jaccard overlap of 0.07–0.73. No part had identical IDs across all exports.
+**Decision.** This corrects D-003: canonical IDs are deterministic for a **given B-Rep topology** (invariant to kernel
+traversal and boolean construction order, which is tested). They are **not** stable across exporters that split
+surfaces differently, and not across edits.
+**Consequences.** Cross-exporter face correspondence remains future work (merge co-surface faces before fingerprinting).
+
+### D-018 — 2026-09-19 — Isolate the single solid, report auxiliary geometry; reject tessellated STEP
+**Context.** 27 of 32 NIST files wrap the solid with PMI curves, points or reference surfaces. The first run crashed
+15 files and quarantined 11. One AP242 file carries tessellated faces only.
+**Decision.** When exactly one solid is present, process that solid and put the ignored auxiliary geometry into
+`validation.warnings` with counts. Faces without a surface cause a rejection with `UNSUPPORTED_TESSELLATED`.
+`PIPELINE_VERSION` went to 1.1.0 because outputs changed.
+
+### D-019 — 2026-09-19 — On-surface check uses achieved per-face deflection
+**Decision.** Each sample's projection distance is bounded by 2 × the chord deflection OCCT recorded for its face
+(`mesh.npz: face_deflection`), not by a fixed multiple of the target deflection, which OCCT doesn't guarantee on
+large freeform faces.
+
+### D-020 — 2026-09-19 — Recognizer: multi-face floors and stacked holes
+**Decision.** A blind-hole floor is any connected set of planes perpendicular to the axis and coaxial cones that
+closes the end, since exporters split drill-point cones. Coaxial bores linked by annular steps form one hole
+(`counterbore_diameters_mm`). On the NIST set, unresolved hole walls dropped from ≈200 to 82, and hole counts agree
+across exports for 9 of 11 parts (before: 4). Synthetic results are unchanged (regression tests + golden files).
+A fillet is judged by the sweep of its connected coaxial group, so split 180° rounds aren't called fillets. The
+visual audit of `ctc_01` found its large rounds to be genuine 90° blends.
+
+### D-021 — 2026-09-19 — Near-duplicates by tolerant pairwise geometry, not binned signatures
+**Context.** The binned signature included face count and surface histogram, so exports of the same NIST part never
+matched (0/11 parts). That means real duplicates could have crossed dataset splits.
+**Decision.** Two samples are near-duplicates if volume and area agree within 0.2 % and the sorted bbox dims within
+0.5 mm + 0.1 %. Clusters come from pairwise union-find. On NIST: 31/31 same-part pairs, 0 false matches. The tolerances
+were derived from this same data (not an independent validation).

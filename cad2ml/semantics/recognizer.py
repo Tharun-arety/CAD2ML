@@ -175,35 +175,96 @@ def _connected(ctx: _Ctx, faces: list[FaceRecord]) -> list[list[FaceRecord]]:
     return comps
 
 
+def _closing_floor(ctx: _Ctx, start: set[str], wall: set[str], ax: np.ndarray, o: np.ndarray) -> list[str]:
+    """Faces that close one end of a hole: planes perpendicular to the axis and/or cones coaxial with it.
+
+    Exporters often split a drill-point cone (or a flat floor) into several faces, so the floor is the
+    connected set of such faces reachable from the rim whose neighbours are only the wall or each other.
+    Returns [] if the end is not closed this way.
+    """
+    floor: set[str] = set()
+    frontier = list(start)
+    while frontier:
+        fid = frontier.pop()
+        if fid in floor or fid in wall:
+            continue
+        f = ctx.fmap[fid]
+        if f.surface_type == "plane":
+            ok = ctx.parallel(f.normal_at_centroid or [0, 0, 0], ax)
+        elif f.surface_type == "cone":
+            cax = _u(f.analytic_params["axis"])  # type: ignore[arg-type]
+            apex = np.asarray(f.analytic_params.get("apex", f.analytic_params["axis_origin"]), float)
+            ok = ctx.parallel(cax, ax) and bool(np.linalg.norm((apex - o) - ((apex - o) @ ax) * ax) < 1e-2)
+        else:
+            ok = False
+        if not ok or len(floor) > 8:
+            return []
+        floor.add(fid)
+        frontier.extend(n for n in f.adjacent_face_ids if n not in wall and n not in floor)
+    closes = all(set(ctx.fmap[f].adjacent_face_ids) <= (wall | floor) for f in floor)
+    return sorted(floor) if floor and closes else []
+
+
+def _coaxial_transition_face(ctx: _Ctx, f: FaceRecord, ax: np.ndarray, o: np.ndarray) -> bool:
+    """Plane perpendicular to the axis, or cone coaxial with it (floors, counterbore steps, countersinks)."""
+    if f.surface_type == "plane":
+        return ctx.parallel(f.normal_at_centroid or [0, 0, 0], ax)
+    if f.surface_type == "cone":
+        cax = _u(f.analytic_params["axis"])  # type: ignore[arg-type]
+        apex = np.asarray(f.analytic_params.get("apex", f.analytic_params["axis_origin"]), float)
+        return ctx.parallel(cax, ax) and bool(np.linalg.norm((apex - o) - ((apex - o) @ ax) * ax) < 1e-2)
+    return False
+
+
+def _step_to_segment(
+    ctx: _Ctx, start: set[str], own: set[str], ax: np.ndarray, o: np.ndarray, seg_of: dict[str, int]
+) -> tuple[list[str], int] | None:
+    """A counterbore/stepped transition: coaxial annular faces linking this bore to exactly one other
+    full coaxial bore. Returns (transition faces, other segment index) or None."""
+    trans: set[str] = set()
+    others: set[int] = set()
+    frontier = list(start)
+    while frontier:
+        fid = frontier.pop()
+        if fid in trans or fid in own:
+            continue
+        if fid in seg_of:
+            others.add(seg_of[fid])
+            continue
+        f = ctx.fmap[fid]
+        if not _coaxial_transition_face(ctx, f, ax, o) or len(trans) > 8:
+            return None
+        trans.add(fid)
+        frontier.extend(n for n in f.adjacent_face_ids if n not in own and n not in trans)
+    if len(others) != 1 or not trans:
+        return None
+    other_ids = {k for k, v in seg_of.items() if v in others}
+    if not all(set(ctx.fmap[t].adjacent_face_ids) <= (own | trans | other_ids) for t in trans):
+        return None
+    return sorted(trans), next(iter(others))
+
+
 def _recognize_holes(ctx: _Ctx) -> list[FeatureRecord]:
+    """Holes as stacks of full, concave, coaxial cylindrical segments.
+
+    Each segment end is classified as open (convex/smooth rim), floor (coaxial faces closing the end),
+    step (coaxial annular faces leading to another bore: counterbore / stepped hole) or other. Segments
+    linked by steps form one hole; the stack's terminal ends decide through vs. blind.
+    """
     cand = [f for f in ctx.faces if f.surface_type == "cylinder" and material_side(f) == "outside"]
     segments: list[list[FaceRecord]] = []
-    for g in _group_coaxial(ctx, cand):
+    for g in _group_coaxial(ctx, cand, same_radius=True):
         segments.extend(_connected(ctx, g))
-    # keep only segments that cover the full circle
-    feats: list[tuple[list[FaceRecord], dict[str, Any], list[Evidence], str]] = []
+    full: list[list[FaceRecord]] = []
     for seg in segments:
         span = sum(angular_span(f) for f in seg)
+        if abs(span - 2 * math.pi) < math.radians(ctx.cfg.angle_tol_deg):
+            full.append(seg)
+    seg_of = {f.face_id: i for i, seg in enumerate(full) for f in seg}
+    info: list[dict[str, Any]] = []
+    for seg in full:
         ids = {f.face_id for f in seg}
         ax, o, r = _axis_key(seg[0])
-        full = abs(span - 2 * math.pi) < math.radians(ctx.cfg.angle_tol_deg)
-        if not full:
-            continue
-        ev = [
-            Evidence(
-                check="concave_cylindrical_surface",
-                passed=True,
-                detail=f"{len(seg)} face(s), mean curvature < 0, radius {r:.4f} mm",
-            )
-        ]
-        ev.append(
-            Evidence(
-                check="full_360_degree_coverage",
-                passed=True,
-                detail=f"summed angular span {math.degrees(span):.3f} deg",
-            )
-        )
-        # classify ends via circular boundary edges leaving the segment
         rims: dict[int, list[tuple[EdgeRecord, str]]] = {}
         for f in seg:
             for eid in f.boundary_edge_ids:
@@ -213,43 +274,98 @@ def _recognize_holes(ctx: _Ctx) -> list[FeatureRecord]:
                     continue
                 pos = round(float(np.asarray(e.start_mm) @ ax) / 0.01)
                 rims.setdefault(pos, []).append((e, others[0]))
-        ends = sorted(rims)
-        ev.append(
-            Evidence(
-                check="two_axial_ends_found",
-                passed=len(ends) == 2,
-                detail=f"{len(ends)} distinct rim positions along axis",
-            )
-        )
-        floors: list[str] = []
-        open_ends = 0
-        for pos in ends:
+        ends: list[dict[str, Any]] = []
+        for pos in sorted(rims):
             rim = rims[pos]
             neighbours = {o_ for _, o_ in rim}
             conv = {e.convexity for e, _ in rim}
-            if conv == {"concave"} and len(neighbours) == 1:
-                nb = ctx.fmap[next(iter(neighbours))]
-                closes = set(nb.adjacent_face_ids) <= ids and nb.loop_count == 1
-                perpendicular = nb.surface_type == "plane" and ctx.parallel(
-                    nb.normal_at_centroid or [0, 0, 0], ax
-                )
-                if closes and (perpendicular or nb.surface_type == "cone"):
-                    floors.append(nb.face_id)
-                    continue
+            end: dict[str, Any] = {"pos": pos * 0.01, "kind": "other", "faces": [], "nb": neighbours}
             if conv <= {"convex", "smooth"}:
-                open_ends += 1
-        axial = [pos * 0.01 for pos in ends]
+                end["kind"] = "open"
+            elif conv == {"concave"}:
+                step = _step_to_segment(ctx, neighbours, ids, ax, o, seg_of)
+                closing = [] if step else _closing_floor(ctx, neighbours, ids, ax, o)
+                if step:
+                    end.update(kind="step", faces=step[0], to=step[1])
+                elif closing:
+                    end.update(kind="floor", faces=closing)
+            ends.append(end)
+        info.append({"seg": seg, "ax": ax, "o": o, "r": r, "ends": ends})
+
+    # union segments linked by steps into stacks
+    parent = list(range(len(full)))
+
+    def find(x: int) -> int:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for i, inf in enumerate(info):
+        if len(inf["ends"]) == 2:
+            for end in inf["ends"]:
+                if end["kind"] == "step" and len(info[end["to"]]["ends"]) == 2:
+                    parent[find(i)] = find(end["to"])
+    stacks: dict[int, list[int]] = {}
+    for i in range(len(full)):
+        stacks.setdefault(find(i), []).append(i)
+
+    feats: list[tuple[list[FaceRecord], dict[str, Any], list[Evidence], str]] = []
+    for members in stacks.values():
+        members.sort(key=lambda k: info[k]["r"])
+        base = info[members[0]]
+        ax, o, r = base["ax"], base["o"], base["r"]
+        faces = [f for k in members for f in info[k]["seg"]]
+        extra: set[str] = set()
+        for k in members:
+            for end in info[k]["ends"]:
+                if end["kind"] == "step" and find(end["to"]) == find(k):
+                    extra.update(end["faces"])
+        # an end is internal if it is a linking step, or if its rim opens onto a linking step face
+        # (the smaller bore's rim on a counterbore floor is convex, i.e. looks "open" from its side)
+        terminal: list[dict[str, Any]] = []
+        for k in members:
+            for end in info[k]["ends"]:
+                linking = end["kind"] == "step" and find(end["to"]) == find(k)
+                if not linking and not (end["nb"] & extra):
+                    terminal.append(end)
+        ev = [
+            Evidence(
+                check="concave_cylindrical_surface",
+                passed=True,
+                detail=f"{len(faces)} face(s) in {len(members)} coaxial bore(s), mean curvature < 0",
+            ),
+            Evidence(check="full_360_degree_coverage", passed=True, detail="every bore covers 360 deg"),
+            Evidence(
+                check="two_axial_ends_found",
+                passed=len(terminal) == 2,
+                detail=f"{len(terminal)} terminal rim positions along axis",
+            ),
+        ]
+        open_ends = sum(e["kind"] == "open" for e in terminal)
+        floors = [fid for e in terminal if e["kind"] == "floor" for fid in e["faces"]]
+        n_other = sum(e["kind"] == "other" for e in terminal)
+        axial = [e["pos"] for e in terminal]
         length = (max(axial) - min(axial)) if len(axial) == 2 else float("nan")
         params: dict[str, Any] = {
             "diameter_mm": round(2 * r, 6),
             "axis": [round(float(x), 6) for x in ax],
             "axis_point_mm": [round(float(x), 6) for x in o],
         }
-        if len(ends) == 2 and open_ends == 2:
+        if len(members) > 1:
+            params["counterbore_diameters_mm"] = [round(2 * info[k]["r"], 6) for k in members[1:]]
+            ev.append(
+                Evidence(
+                    check="coaxial_bores_linked_by_annular_steps",
+                    passed=True,
+                    detail=f"{len(members)} bores, {len(extra)} step face(s)",
+                )
+            )
+        if len(terminal) == 2 and open_ends == 2:
             ev.append(Evidence(check="both_ends_open_with_convex_rims", passed=True, detail="through"))
             kind = "through_hole"
             params["length_mm"] = round(length, 6)
-        elif len(ends) == 2 and open_ends == 1 and len(floors) == 1:
+        elif len(terminal) == 2 and open_ends == 1 and floors:
             ev.append(
                 Evidence(check="one_open_end_and_one_closing_floor", passed=True, detail=f"floor {floors[0]}")
             )
@@ -260,11 +376,11 @@ def _recognize_holes(ctx: _Ctx) -> list[FeatureRecord]:
                 Evidence(
                     check="end_conditions_consistent",
                     passed=False,
-                    detail=f"open_ends={open_ends}, floors={floors}",
+                    detail=f"open_ends={open_ends}, floors={floors}, other={n_other}",
                 )
             )
             kind = "cylindrical_hole_wall"
-        feats.append((seg + [ctx.fmap[x] for x in floors], params, ev, kind))
+        feats.append((faces + [ctx.fmap[x] for x in sorted(extra | set(floors))], params, ev, kind))
     # merge collinear segments of the same through hole (e.g. a pin bore through two clevis lugs)
     out: list[FeatureRecord] = []
     merged: list[int] = []
@@ -601,9 +717,27 @@ def _recognize_fillets(ctx: _Ctx, max_radius_fraction: float = 0.1) -> list[Feat
     lo = np.min([f.bbox_min_mm for f in ctx.faces], axis=0)
     hi = np.max([f.bbox_max_mm for f in ctx.faces], axis=0)
     diag = float(np.linalg.norm(hi - lo))
+    # Exporters split a 180 deg rounded end (lug/boss) into several <= 90 deg faces; judge the sweep of the
+    # whole connected coaxial same-radius group, not the single face (NIST R6 audit finding).
+    partial = [
+        c
+        for c in ctx.faces
+        if c.surface_type == "cylinder"
+        and 0 < angular_span(c) < 2 * math.pi - 1e-6
+        and c.face_id not in ctx.claimed
+    ]
+    group_span: dict[str, float] = {}
+    for g in _group_coaxial(ctx, partial, same_radius=True):
+        for comp in _connected(ctx, g):
+            sides = {material_side(c) for c in comp}
+            span = sum(angular_span(c) for c in comp) if len(sides) == 1 else 0.0
+            for c in comp:
+                group_span[c.face_id] = span
     for f in ctx.faces:
         if f.face_id in ctx.claimed or not _is_blend(ctx, f):
             continue
+        if group_span.get(f.face_id, 0.0) > 0.6 * math.pi:
+            continue  # rounded end / boss, not a blend: left for later rules (becomes `unknown`)
         r = float(f.analytic_params.get("radius", f.analytic_params.get("minor_radius", 0.0)))  # type: ignore[arg-type]
         smooth_nb = sorted(
             {

@@ -176,3 +176,13 @@ def test_graph_invariants_on_handmade_topology() -> None:
     faces[2].adjacent_face_ids.append("F000")  # corrupt: adjacency without a shared edge
     g_bad = build_face_graph(faces, edges + [_edge("E003", ["F002", "F002"], "seam")], 10.0, 30.0, [1, 1, 1])
     assert check_graph_invariants(g_bad, faces, edges)["no_self_loops"]
+
+
+def test_near_duplicate_matching_is_tolerant_and_permutation_invariant() -> None:
+    from cad2ml.datasets.builder import is_near_duplicate, near_duplicate_clusters
+
+    a = (1000.0, 600.0, (10.0, 10.0, 10.0))
+    rotated_reexport = (1000.9, 600.5, (10.0, 10.0, 10.0))  # +0.09 % volume, bbox axes permuted/sorted
+    different = (1030.0, 600.0, (10.0, 10.0, 10.3))
+    assert is_near_duplicate(a, rotated_reexport) and not is_near_duplicate(a, different)
+    assert near_duplicate_clusters({"x": a, "y": rotated_reexport, "z": different}) == [["x", "y"]]

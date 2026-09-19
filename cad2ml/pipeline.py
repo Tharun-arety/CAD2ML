@@ -217,6 +217,10 @@ def process_source(
         timings["total"] = round(time.perf_counter() - t_start, 6)
         store.put_bytes(f"{staging_key}/config.json", cfg.canonical_json().encode())
         store.put_bytes(f"{staging_key}/manifest.json", manifest.model_dump_json(indent=1).encode())
+        if not reuse_existing and store.exists(manifest_key(sample_id)):
+            # explicit reprocess: keep the superseded version for audit instead of silently discarding the new one
+            stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%f")
+            store.promote_prefix(f"samples/{sample_id}", f"superseded/{sample_id}-{stamp}")
         store.promote_prefix(staging_key, f"samples/{sample_id}")
         written = sum(r.bytes for r in manifest.artifacts.values())
         metrics.ARTIFACT_BYTES.inc(written)

@@ -143,9 +143,10 @@ def extract_child(brep_path: str, staging_dir: str, cfg_json: str, meta: dict[st
     checks["pointcloud.normals_finite_unit"] = bool(
         np.isfinite(pc.normals).all() and np.abs(nl - 1).max() < 1e-3
     )
-    checks["pointcloud.on_surface"] = (
-        pc.max_projection_distance_mm <= max(cfg.tessellation.linear_deflection_mm, 1e-3) * 2
-    )
+    # every sample moved onto the exact surface by at most 2x the chord deflection OCCT achieved on its face
+    checks["pointcloud.on_surface"] = pc.max_projection_ratio <= 1.0
+    details["pointcloud.max_projection_ratio"] = pc.max_projection_ratio
+    details["mesh.max_face_deflection_mm"] = float(mesh.face_deflection.max())
     inv = denormalize(pc.points, pc.center, pc.scale)
     details["pointcloud.inverse_transform_max_err_mm"] = float(np.abs(inv - pc.points_mm).max())
     checks["pointcloud.inverse_transform"] = (

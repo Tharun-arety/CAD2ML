@@ -30,6 +30,7 @@ class MeshData:
     triangles: NDArray[np.int32]  # [T,3] CCW seen from outside
     tri_face_index: NDArray[np.int32]  # [T] canonical face index
     face_tri_range: NDArray[np.int64]  # [F,2] (start, count)
+    face_deflection: NDArray[np.float64]  # [F] chord deflection OCCT reports it achieved per face (mm)
     settings: dict[str, Any]
 
     def to_npz(self) -> dict[str, NDArray[Any]]:
@@ -39,6 +40,7 @@ class MeshData:
             "triangles": self.triangles,
             "tri_face_index": self.tri_face_index,
             "face_tri_range": self.face_tri_range,
+            "face_deflection": self.face_deflection,
         }
 
 
@@ -54,6 +56,7 @@ def tessellate(model: BRepModel, cfg: TessellationConfig, bbox_diag: float) -> M
     ranges = np.zeros((len(model.faces), 2), dtype=np.int64)
     v_off = 0
     t_off = 0
+    deflections: list[float] = []
     for fi, face in enumerate(model.faces):
         loc = TopLoc_Location()
         tri = BRep_Tool.Triangulation_s(face, loc)
@@ -62,6 +65,7 @@ def tessellate(model: BRepModel, cfg: TessellationConfig, bbox_diag: float) -> M
                 "TESSELLATION_FAILED", f"face {model.face_records[fi].face_id} has no triangles", "extracting"
             )
         trsf = loc.Transformation()
+        deflections.append(float(tri.Deflection()))
         nn, nt = tri.NbNodes(), tri.NbTriangles()
         v = np.empty((nn, 3), dtype=np.float64)
         for k in range(1, nn + 1):
@@ -104,6 +108,7 @@ def tessellate(model: BRepModel, cfg: TessellationConfig, bbox_diag: float) -> M
         triangles=np.concatenate(tris),
         tri_face_index=np.concatenate(tface),
         face_tri_range=ranges,
+        face_deflection=np.asarray(deflections, dtype=np.float64),
         settings={
             "linear_deflection_mm": lin,
             "angular_deflection_rad": cfg.angular_deflection_rad,

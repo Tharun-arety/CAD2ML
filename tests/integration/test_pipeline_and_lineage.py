@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from cad2ml.config import IngestionConfig, PipelineConfig, TessellationConfig
+from cad2ml.config import PIPELINE_VERSION, IngestionConfig, PipelineConfig, TessellationConfig
 from cad2ml.lineage import trace_face
 from cad2ml.pipeline import load_manifest, process_source
 from cad2ml.schemas.manifest import Manifest
@@ -64,7 +64,7 @@ def test_trace_face_across_all_representations(completed: Manifest, store: Local
     assert sum(chain["views"]["pixels_per_view"].values()) > 0
     assert chain["features (inferred)"][0]["feature_type"] == "through_hole"
     assert chain["source"]["sha256"] == completed.source.sha256
-    assert chain["processing"]["pipeline_version"] == "1.0.0"
+    assert chain["processing"]["pipeline_version"] == PIPELINE_VERSION
 
 
 @pytest.mark.parametrize(
@@ -123,3 +123,20 @@ def test_failed_extraction_leaves_no_partial_sample(tmp_path: Path, box_with_hol
     assert m.status == "quarantined" and m.rejection.code == "TESSELLATION_FAILED"
     assert list(store.list(f"samples/{m.sample_id}")) == [f"samples/{m.sample_id}/manifest.json"]
     assert not list(store.list("staging"))
+
+
+def test_forced_reprocess_replaces_and_keeps_superseded(tmp_path: Path, box_with_hole_step: Path) -> None:
+    store = LocalFSStore(tmp_path)
+    bad_cfg = PipelineConfig(tessellation=TessellationConfig(min_triangles_per_face=10**9))
+    first = process_source("p.step", box_with_hole_step.read_bytes(), store, bad_cfg)
+    assert first.status == "quarantined"
+    # same sample id (same config), explicit reprocess after the failure record exists
+    again = process_source("p.step", box_with_hole_step.read_bytes(), store, bad_cfg, reuse_existing=False)
+    assert again.status == "quarantined"
+    good = process_source("p.step", box_with_hole_step.read_bytes(), store)
+    good2 = process_source("p.step", box_with_hole_step.read_bytes(), store, reuse_existing=False)
+    stored = load_manifest(store, good2.sample_id)
+    assert stored is not None and stored.processing.processed_at == good2.processing.processed_at
+    assert good.sample_id == good2.sample_id and any(
+        k.startswith("superseded/") for k in store.list("superseded")
+    )

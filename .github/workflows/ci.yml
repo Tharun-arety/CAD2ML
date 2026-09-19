@@ -54,7 +54,7 @@ jobs:
           docker compose run --rm             -e CAD2ML_TEST_DATABASE_URL=postgresql+psycopg://cad2ml:cad2ml-local@postgres:5432/cad2ml_test             -e CAD2ML_TEST_QUEUE_URL=redis://valkey:6379/15             api pytest tests/integration/test_jobs_api_worker.py -q -p no:cacheprovider --basetemp=/tmp/pt
           docker compose down -v
       - name: Image vulnerability scan (informational)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: cad2ml:ci
           severity: CRITICAL,HIGH

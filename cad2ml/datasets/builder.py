@@ -40,18 +40,48 @@ def _npz(store: ArtifactStore, key: str) -> dict[str, Any]:
         return {k: d[k] for k in d.files}
 
 
-def geometry_signature(m: Manifest) -> tuple[Any, ...]:
-    """Coarse, pose-invariant signature for near-duplicate *candidate* detection."""
+def geometry_signature(m: Manifest) -> tuple[float, float, tuple[float, float, float]]:
+    """Exporter- and axis-permutation-invariant summary: (volume, area, sorted bbox dims).
+
+    Face counts and surface-type histograms are deliberately excluded: different STEP exporters split the
+    same surfaces into different numbers of faces (measured on NIST models, R6), so they would hide
+    duplicates.
+    """
     g = m.geometry
     assert g is not None
-    dims = sorted(g.bounding_box_mm)
-    return (
-        round(g.volume_mm3 / 50.0),
-        round(g.surface_area_mm2 / 25.0),
-        tuple(round(d / 0.5) for d in dims),
-        g.face_count,
-        tuple(sorted(g.surface_type_histogram.items())),
-    )
+    d = sorted(g.bounding_box_mm)
+    return (g.volume_mm3, g.surface_area_mm2, (d[0], d[1], d[2]))
+
+
+def is_near_duplicate(
+    a: tuple[float, float, tuple[float, float, float]],
+    b: tuple[float, float, tuple[float, float, float]],
+    rtol: float = 2e-3,
+    bbox_atol_mm: float = 0.5,
+) -> bool:
+    """Tolerant pairwise match (no binning, so no boundary effects). Tolerances cover the largest
+    cross-exporter spread measured on NIST parts (volume 1.1e-3, area 1.1e-3 relative)."""
+    va, aa, da = a
+    vb, ab, db = b
+    if abs(va - vb) > rtol * max(abs(va), abs(vb)) or abs(aa - ab) > rtol * max(abs(aa), abs(ab)):
+        return False
+    return all(abs(x - y) <= bbox_atol_mm + 1e-3 * max(x, y) for x, y in zip(da, db, strict=True))
+
+
+def near_duplicate_clusters(
+    sigs: dict[str, tuple[float, float, tuple[float, float, float]]],
+) -> list[list[str]]:
+    ids = sorted(sigs)
+    uf = _UF()
+    for i, x in enumerate(ids):
+        uf.find(x)
+        for y in ids[i + 1 :]:
+            if is_near_duplicate(sigs[x], sigs[y]):
+                uf.union(x, y)
+    groups: dict[str, list[str]] = defaultdict(list)
+    for x in ids:
+        groups[uf.find(x)].append(x)
+    return sorted(sorted(g) for g in groups.values() if len(g) > 1)
 
 
 def iter_manifests(store: ArtifactStore) -> list[Manifest]:
@@ -181,15 +211,10 @@ def build_dataset(
     uf = _UF()
     for s in included.values():
         uf.find(s["group"])
-    by_sig: dict[tuple[Any, ...], list[str]] = defaultdict(list)
-    for sid, s in included.items():
-        by_sig[s["signature"]].append(sid)
-    near_dups = []
-    for sig_ids in by_sig.values():
-        if len(sig_ids) > 1:
-            near_dups.append(sorted(sig_ids))
-            for other in sig_ids[1:]:
-                uf.union(included[sig_ids[0]]["group"], included[other]["group"])
+    near_dups = near_duplicate_clusters({sid: s["signature"] for sid, s in included.items()})
+    for cluster in near_dups:
+        for other in cluster[1:]:
+            uf.union(included[cluster[0]]["group"], included[other]["group"])
     unit_key = "family" if split_mode == "family" else "group"
     units = {
         uf.find(s[unit_key]) if unit_key == "group" else s["family"]: s["family"] for s in included.values()

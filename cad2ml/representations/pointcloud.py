@@ -37,6 +37,9 @@ class PointCloud:
     center: NDArray[np.float64]
     scale: float
     max_projection_distance_mm: float
+    max_projection_ratio: (
+        float  # max over points of distance / (2 x achieved deflection of its face); <= 1 is ok
+    )
     settings: dict[str, Any]
 
     def to_npz(self) -> dict[str, NDArray[Any]]:
@@ -100,6 +103,7 @@ def sample_point_cloud(
     pts_l, nrm_l, fid_l, cur_l, gau_l, bnd_l = [], [], [], [], [], []
     ranges = np.zeros((len(model.faces), 2), dtype=np.int64)
     worst = 0.0
+    worst_ratio = 0.0
     offset = 0
     for fi, face in enumerate(model.faces):
         k = int(alloc[fi])
@@ -143,6 +147,11 @@ def sample_point_cloud(
                 nrm = list(mesh.vertex_normals[ftris.reshape(-1)[nearest]])
                 pnt = list(q)
             worst = max(worst, dist)
+            bound = (
+                2.0 * max(float(mesh.face_deflection[fi]), float(mesh.settings["linear_deflection_mm"]))
+                + 1e-4
+            )
+            worst_ratio = max(worst_ratio, dist / bound)
             out_p[i], out_n[i] = pnt, nrm
             out_c[i] = H if np.isfinite(H) else 0.0
             out_g[i] = K if np.isfinite(K) else 0.0
@@ -170,6 +179,7 @@ def sample_point_cloud(
         center=center,
         scale=scale,
         max_projection_distance_mm=float(worst),
+        max_projection_ratio=float(worst_ratio),
         settings={
             **cfg.model_dump(),
             "effective_num_points": int(offset),

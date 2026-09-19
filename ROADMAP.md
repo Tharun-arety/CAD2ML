@@ -12,16 +12,19 @@ recorded (see `STATUS.md` for where each gate stands and how it was verified).
 | **R4 Production operation** | API, durable jobs, leases/heartbeats, retry and idempotency, metrics, reaper/reconciler, benchmark, fault injection | R1–R3 | The pipeline recovers from a worker kill, and the benchmark reports measured p50/p95 (`test_worker_killed_mid_job_is_recovered`, `scripts/benchmark.py`) |
 | **R5 ML proof & reviewer experience** | GNN + MLP baselines, evaluation report, prediction→face traceability, inspection UI, README, demo | R3–R4 | A fresh reviewer can start the stack, process CAD, build a dataset, train, run inference and inspect (`docker compose up --build` + `scripts/demo.py`) |
 
-## Next releases (not implemented)
+## Next releases
 
-- **R6 Real-world robustness.** Evaluate on public, permissively licensed STEP collections (e.g. ABC/Fusion 360
-  Gallery subsets, license permitting). Measure recognizer precision where no synthetic ground truth exists
-  (manual audit sample). Add BSpline-heavy and imported/tolerance-degraded geometry to the failure corpus.
-- **R7 Recognizer v2.** Counterbores/countersinks, chamfers, bosses, ribs, non-axis-aligned slots, and pockets with
+- **R6 Real-world robustness: in progress.** Done (see [docs/r6_real_world.md](docs/r6_real_world.md)): NIST MBE PMI
+  models (33 files / 11 parts). 32 complete and 1 tessellated file is rejected. There are fixes for auxiliary geometry,
+  multi-face hole floors, counterbores and exporter-invariant near-duplicates, plus measured cross-export consistency.
+  Open: a hole-by-hole audit against the NIST drawings / AP242 semantic PMI; the Fusion 360 Gallery segmentation
+  subset (real per-face labels, non-commercial licence); failure rates on imported/tolerance-degraded geometry.
+- **R7 Recognizer v2.** Countersinks (counterbores were added in R6), chamfers, bosses, ribs, non-axis-aligned slots, and pockets with
   islands. Calibrated confidence (reliability curves against audited labels).
 - **R8 Learning.** A pose-invariant feature set for the GNN, UV-grid face encodings (UV-Net style), a point-cloud
   segmentation baseline that uses per-point face ids, and multi-view segmentation from face-ID masks.
-- **R9 Revision matching.** Validate fingerprint matching on parameter-perturbed revision pairs; report matching
-  precision/recall before removing the "experimental" label.
+- **R9 Revision/exporter matching.** R6 showed canonical IDs differ across exporters (0/11 NIST parts identical).
+  Merge co-surface faces before fingerprinting, then measure matching precision/recall on the NIST export pairs and on
+  parameter-perturbed revisions before removing the "experimental" label.
 - **R10 Adapters & scale.** An S3 backend for `ArtifactStore`, an IGES adapter behind `CadAdapter`, assembly
   decomposition into per-part samples, horizontal worker scaling with a measured throughput curve.

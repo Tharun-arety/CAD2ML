@@ -24,7 +24,8 @@ from OCP.BRepExtrema import BRepExtrema_DistShapeShape
 from OCP.BRepMesh import BRepMesh_IncrementalMesh
 from OCP.gp import gp_Pnt
 from OCP.ShapeFix import ShapeFix_Shape
-from OCP.TopAbs import TopAbs_FACE, TopAbs_OUT, TopAbs_SHELL, TopAbs_SOLID
+from OCP.TopAbs import TopAbs_EDGE, TopAbs_FACE, TopAbs_OUT, TopAbs_SHELL, TopAbs_SOLID, TopAbs_VERTEX
+from OCP.TopExp import TopExp_Explorer
 from OCP.TopLoc import TopLoc_Location
 from OCP.TopoDS import TopoDS, TopoDS_Shape
 
@@ -117,8 +118,39 @@ class RepairOutcome:
     warnings: list[str]
 
 
+def _count_free(shape: TopoDS_Shape, kind: Any, avoid: Any) -> int:
+    exp = TopExp_Explorer(shape, kind, avoid)
+    n = 0
+    while exp.More():
+        n += 1
+        exp.Next()
+    return n
+
+
+def isolate_single_solid(shape: TopoDS_Shape) -> tuple[TopoDS_Shape, list[str]]:
+    """If the shape holds exactly one solid plus auxiliary geometry (PMI/construction curves, reference
+    surfaces, points), return the solid alone and describe what was ignored. Never silent."""
+    solids = occ.index_map(shape, TopAbs_SOLID)
+    if solids.Extent() != 1 or shape.ShapeType() == TopAbs_SOLID:
+        return shape, []
+    aux = {
+        "shells": _count_free(shape, TopAbs_SHELL, TopAbs_SOLID),
+        "faces": _count_free(shape, TopAbs_FACE, TopAbs_SHELL),
+        "edges": _count_free(shape, TopAbs_EDGE, TopAbs_FACE),
+        "vertices": _count_free(shape, TopAbs_VERTEX, TopAbs_EDGE),
+    }
+    solid = TopoDS.Solid_s(solids.FindKey(1))
+    ignored = {k: v for k, v in aux.items() if v}
+    if not ignored:
+        return solid, []
+    detail = ", ".join(f"{v} {k}" for k, v in ignored.items())
+    return solid, [f"auxiliary geometry outside the solid ignored (not part of the part): {detail}"]
+
+
 def validate_and_repair(shape: TopoDS_Shape, cfg: RepairConfig) -> RepairOutcome:
+    shape, aux_warnings = isolate_single_solid(shape)
     d0 = diagnose(shape)
+    d0.warnings[:0] = aux_warnings
     ok0 = d0.valid and d0.solid_count == 1 and d0.closed_shells and d0.orientation_ok
     if ok0:
         return RepairOutcome(shape, True, True, True, False, None, [], None, None, d0.warnings)

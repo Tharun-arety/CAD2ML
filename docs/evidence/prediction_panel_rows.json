@@ -1,34 +1,34 @@
 {
- "run_id": "tr_c9656e59a250d98e",
- "dataset_id": "ds_6b514ec0fcf2ea58",
- "sample_id": "s_1a654205869352703559c8c5",
+ "run_id": "tr_fcfd68b3b8ec0f16",
+ "dataset_id": "ds_e95e69fbc04d23ed",
+ "sample_id": "s_1e39506023058253f4ef18d5",
  "rows": [
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F000",
    "graph_node": 0,
    "ground_truth": "planar",
    "predicted": "planar",
-   "confidence": 0.9942
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F001",
    "graph_node": 1,
    "ground_truth": "planar",
    "predicted": "planar",
-   "confidence": 0.9971
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F002",
    "graph_node": 2,
    "ground_truth": "slot",
    "predicted": "planar",
-   "confidence": 0.6779
+   "confidence": 0.5723
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F003",
    "graph_node": 3,
    "ground_truth": "planar",
@@ -36,84 +36,84 @@
    "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F004",
    "graph_node": 4,
    "ground_truth": "planar",
    "predicted": "planar",
-   "confidence": 0.9999
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F005",
    "graph_node": 5,
    "ground_truth": "slot",
-   "predicted": "planar",
-   "confidence": 0.6792
+   "predicted": "slot",
+   "confidence": 0.8852
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F006",
    "graph_node": 6,
    "ground_truth": "planar",
    "predicted": "planar",
-   "confidence": 0.9967
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F007",
    "graph_node": 7,
    "ground_truth": "planar",
    "predicted": "planar",
-   "confidence": 0.9903
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F008",
    "graph_node": 8,
    "ground_truth": "hole",
    "predicted": "hole",
-   "confidence": 0.9921
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F009",
    "graph_node": 9,
    "ground_truth": "hole",
    "predicted": "hole",
-   "confidence": 0.9921
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F010",
    "graph_node": 10,
    "ground_truth": "slot",
    "predicted": "slot",
-   "confidence": 0.6888
+   "confidence": 0.9992
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F011",
    "graph_node": 11,
    "ground_truth": "slot",
    "predicted": "slot",
-   "confidence": 0.7056
+   "confidence": 0.9996
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F012",
    "graph_node": 12,
    "ground_truth": "hole",
    "predicted": "hole",
-   "confidence": 0.9921
+   "confidence": 1.0
   },
   {
-   "sample_id": "s_1a654205869352703559c8c5",
+   "sample_id": "s_1e39506023058253f4ef18d5",
    "face_id": "F013",
    "graph_node": 13,
    "ground_truth": "hole",
    "predicted": "hole",
-   "confidence": 0.9921
+   "confidence": 1.0
   }
  ]
 }

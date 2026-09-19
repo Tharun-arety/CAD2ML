@@ -144,3 +144,11 @@ def test_exported_json_schemas_match_models() -> None:
     assert (
         json.loads((root / "pipeline_config.schema.json").read_text()) == PipelineConfig.model_json_schema()
     )
+
+
+def test_step_files_accepts_stp_and_step_case_insensitive(tmp_path: Path) -> None:
+    from cad2ml.ingestion.intake import step_files
+
+    for n in ["a.step", "b.STP", "c.stp", "d.txt", "e.Step"]:
+        (tmp_path / n).write_bytes(b"x")
+    assert [p.name for p in step_files(tmp_path)] == ["a.step", "b.STP", "c.stp", "e.Step"]

@@ -260,6 +260,8 @@ def extract_entities(shape: TopoDS_Shape, smooth_deg: float = SMOOTH_ANGLE_DEG) 
             convexity = "unknown"
         elif edge_is_seam[ei]:
             convexity = "seam"
+        elif len(fl) == 0:
+            convexity = "unknown"  # edge not used by any face (only reachable without solid isolation)
         elif len(fl) == 1:
             convexity = "boundary"
         elif len(fl) > 2:

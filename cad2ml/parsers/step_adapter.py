@@ -61,6 +61,16 @@ def count_entities(text: str, name: str) -> int:
     return len(re.findall(rf"=\s*{name}\s*\(", text, re.IGNORECASE))
 
 
+def _face_has_no_surface(face: Any) -> bool:
+    from OCP.BRep import BRep_Tool
+    from OCP.TopoDS import TopoDS
+
+    try:
+        return BRep_Tool.Surface_s(TopoDS.Face_s(face)) is None
+    except Exception:
+        return True
+
+
 def parse_step_child(source: str, out_brep: str, fault_sleep_s: float = 0.0) -> dict[str, Any]:
     """Isolated-child entry point. Returns observations; writes ``out_brep``."""
     from OCP.BRepTools import BRepTools
@@ -112,6 +122,15 @@ def parse_step_child(source: str, out_brep: str, fault_sleep_s: float = 0.0) -> 
         raise PipelineError("MULTI_BODY", f"{solids} solids found; v1 accepts exactly one solid", "parsing")
     if faces == 0:
         raise PipelineError("STEP_NO_SHAPES", "no faces in transferred shape", "parsing")
+    fmap = TopTools_IndexedMapOfShape()
+    TopExp.MapShapes_s(shape, TopAbs_FACE, fmap)
+    no_surface = sum(1 for i in range(1, fmap.Extent() + 1) if _face_has_no_surface(fmap.FindKey(i)))
+    if no_surface:
+        raise PipelineError(
+            "UNSUPPORTED_TESSELLATED",
+            f"{no_surface}/{faces} faces carry no surface geometry (tessellated representation)",
+            "parsing",
+        )
 
     os.makedirs(os.path.dirname(out_brep), exist_ok=True)
     if not BRepTools.Write_s(shape, out_brep):

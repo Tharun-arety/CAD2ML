@@ -1,0 +1,307 @@
+{
+ "summary": {
+  "files": 33,
+  "completed": 32,
+  "rejected": 1,
+  "duplicates": 0
+ },
+ "rows": [
+  {
+   "file": "parts\\nist_ctc_01_asme1_ap203.stp",
+   "sample_id": "s_cb2637254d650137947459fe",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.736,
+   "faces": 139
+  },
+  {
+   "file": "parts\\nist_ctc_01_asme1_ap242-e1.stp",
+   "sample_id": "s_4d3dbf7ce0ace43e5811ae9d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.067,
+   "faces": 117
+  },
+  {
+   "file": "parts\\nist_ctc_01_asme1_rd.stp",
+   "sample_id": "s_5e42cfad4bc765fa3e063742",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.926,
+   "faces": 139
+  },
+  {
+   "file": "parts\\nist_ctc_02_asme1_ap203.stp",
+   "sample_id": "s_5bd3603337aae0c38825e11a",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 27.95,
+   "faces": 487
+  },
+  {
+   "file": "parts\\nist_ctc_02_asme1_ap242-e2.stp",
+   "sample_id": "s_7ae649f01409f8055684f25a",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 24.207,
+   "faces": 635
+  },
+  {
+   "file": "parts\\nist_ctc_02_asme1_rc.stp",
+   "sample_id": "s_229517a72fe6c254dd2b6f2d",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 22.644,
+   "faces": 663
+  },
+  {
+   "file": "parts\\nist_ctc_03_asme1_ap203.stp",
+   "sample_id": "s_1d347bb76e4ed3f80c64bfa5",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.523,
+   "faces": 139
+  },
+  {
+   "file": "parts\\nist_ctc_03_asme1_ap242-e2.stp",
+   "sample_id": "s_960d4ea5878324e9a9d64a31",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.244,
+   "faces": 120
+  },
+  {
+   "file": "parts\\nist_ctc_03_asme1_rc.stp",
+   "sample_id": "s_5a00ab11f01e6911fc3594db",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.097,
+   "faces": 139
+  },
+  {
+   "file": "parts\\nist_ctc_04_asme1_ap203.stp",
+   "sample_id": "s_068f340f5b30b4cbcdf0b5b2",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 15.403,
+   "faces": 405
+  },
+  {
+   "file": "parts\\nist_ctc_04_asme1_ap242-e1.stp",
+   "sample_id": "s_9b709bd152962aaffaa9c2bb",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 15.872,
+   "faces": 483
+  },
+  {
+   "file": "parts\\nist_ctc_04_asme1_rd.stp",
+   "sample_id": "s_54b489364a7141986631cef1",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 15.233,
+   "faces": 517
+  },
+  {
+   "file": "parts\\nist_ctc_05_asme1_ap203.stp",
+   "sample_id": "s_4a03821243ea0c1cd2ce19be",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 8.342,
+   "faces": 156
+  },
+  {
+   "file": "parts\\nist_ctc_05_asme1_ap242-e1.stp",
+   "sample_id": "s_451ba9f30ba3b7ad40dc652c",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 8.497,
+   "faces": 156
+  },
+  {
+   "file": "parts\\nist_ctc_05_asme1_rd.stp",
+   "sample_id": "s_c0ff96a3f075db610c2d9506",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 9.957,
+   "faces": 208
+  },
+  {
+   "file": "parts\\nist_ftc_06_asme1_ap242-e2.stp",
+   "sample_id": "s_9437c67d171ade723bf8ae27",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 9.876,
+   "faces": 187
+  },
+  {
+   "file": "parts\\nist_ftc_06_asme1_rd.stp",
+   "sample_id": "s_f914e26375e00fee6f7ad74f",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 8.232,
+   "faces": 144
+  },
+  {
+   "file": "parts\\nist_ftc_07_asme1_ap242-e2.stp",
+   "sample_id": "s_e0b073b01cffdd425a876384",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 11.799,
+   "faces": 304
+  },
+  {
+   "file": "parts\\nist_ftc_07_asme1_rd.stp",
+   "sample_id": "s_11eedcd42f56fd57ed3809f6",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 7.971,
+   "faces": 269
+  },
+  {
+   "file": "parts\\nist_ftc_08_asme1_ap242-e1-tg.stp",
+   "sample_id": "s_2545db4e461570ffbd14250b",
+   "status": "rejected",
+   "code": "UNSUPPORTED_TESSELLATED",
+   "duplicate_of": null,
+   "seconds": 1.207,
+   "faces": null
+  },
+  {
+   "file": "parts\\nist_ftc_08_asme1_ap242-e2.stp",
+   "sample_id": "s_bfcfbe24616c9b48799ce3a1",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 7.976,
+   "faces": 247
+  },
+  {
+   "file": "parts\\nist_ftc_08_asme1_rc.stp",
+   "sample_id": "s_fb51160983665c9442321df0",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 6.976,
+   "faces": 270
+  },
+  {
+   "file": "parts\\nist_ftc_09_asme1_ap242-e1.stp",
+   "sample_id": "s_70de81b0b20ab9bf69f116f9",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 5.466,
+   "faces": 158
+  },
+  {
+   "file": "parts\\nist_ftc_09_asme1_rd.stp",
+   "sample_id": "s_1bea223361998cc1fded5a69",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.448,
+   "faces": 158
+  },
+  {
+   "file": "parts\\nist_ftc_10_asme1_ap242-e2.stp",
+   "sample_id": "s_e977a5dc77efa9aeb2610588",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 10.672,
+   "faces": 264
+  },
+  {
+   "file": "parts\\nist_ftc_10_asme1_rb.stp",
+   "sample_id": "s_307f7d5902db0a380de97848",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 9.318,
+   "faces": 214
+  },
+  {
+   "file": "parts\\nist_ftc_11_asme1_ap242-e2.stp",
+   "sample_id": "s_36f8a74aabe5aa45306d86b3",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 4.619,
+   "faces": 42
+  },
+  {
+   "file": "parts\\nist_ftc_11_asme1_rb.stp",
+   "sample_id": "s_7325287fa162d99aa904e622",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 3.915,
+   "faces": 6
+  },
+  {
+   "file": "parts\\nist_stc_06_asme1_ap242-e3.stp",
+   "sample_id": "s_d4b52bf247917b66bcc3a191",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 8.353,
+   "faces": 144
+  },
+  {
+   "file": "parts\\nist_stc_07_asme1_ap242-e3.stp",
+   "sample_id": "s_d9ce1e2116cdb78c2df89c7c",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 18.193,
+   "faces": 304
+  },
+  {
+   "file": "parts\\nist_stc_08_asme1_ap242-e3.stp",
+   "sample_id": "s_d26913a1804ce2b538371218",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 8.34,
+   "faces": 270
+  },
+  {
+   "file": "parts\\nist_stc_09_asme1_ap242-e3.stp",
+   "sample_id": "s_a3c965d38e0eb3186bc89c47",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 5.319,
+   "faces": 125
+  },
+  {
+   "file": "parts\\nist_stc_10_asme1_ap242-e2.stp",
+   "sample_id": "s_7ed3ee596d6ce8943159c140",
+   "status": "completed",
+   "code": null,
+   "duplicate_of": null,
+   "seconds": 10.726,
+   "faces": 256
+  }
+ ]
+}

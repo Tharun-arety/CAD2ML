@@ -170,3 +170,55 @@ def test_views_face_ids_are_canonical(plate_with_tiny_hole) -> None:
     n = v.normals[0][v.face_id[0] == top + 1].astype(np.float32)
     assert np.allclose(n.mean(0), [0, 0, 1], atol=1e-2)
     assert math.isclose(float(np.linalg.norm(n, axis=1).mean()), 1.0, abs_tol=1e-2)
+
+
+def test_auxiliary_geometry_is_isolated_and_reported() -> None:
+    """Real STEP files (e.g. NIST PMI models) wrap the solid with PMI curves and reference surfaces."""
+    from cad2ml.geometry.validation import isolate_single_solid
+
+    solid = cq.Solid.makeBox(20, 20, 20)
+    loose_edge = cq.Edge.makeLine(cq.Vector(0, 0, 50), cq.Vector(10, 0, 50))
+    ref_surface = cq.Shell.makeShell(cq.Solid.makeBox(5, 5, 5).translate(cq.Vector(40, 0, 0)).Faces()[:2])
+    comp = cq.Compound.makeCompound([solid, loose_edge, ref_surface])
+    iso, warnings = isolate_single_solid(comp.wrapped)
+    assert iso.ShapeType() == solid.wrapped.ShapeType()
+    assert len(warnings) == 1 and "2 faces" in warnings[0] and "1 edges" in warnings[0]
+    out = validate_and_repair(comp.wrapped, RepairConfig())
+    assert out.source_valid and not out.repair_attempted
+    assert any("auxiliary geometry" in w for w in out.warnings)
+    assert occ.volume_props(out.shape)[0] == pytest.approx(8000, rel=1e-9)
+    _, m = _model(out.shape)
+    assert len(m.face_records) == 6 and "unknown" not in {e.convexity for e in m.edge_records}
+
+
+def test_drilled_blind_hole_with_cone_tip_floor() -> None:
+    """Real drilled holes end in a 118 degree cone, often exported as several faces (NIST R6 finding)."""
+    import math as _m
+
+    r, depth = 3.0, 10.0
+    tip = r / _m.tan(_m.radians(59))
+    drill = cq.Solid.makeCylinder(r, depth, cq.Vector(0, 0, 20 - depth)).fuse(
+        cq.Solid.makeCone(0, r, tip, cq.Vector(0, 0, 20 - depth - tip))
+    )
+    part = cq.Solid.makeBox(40, 40, 20, cq.Vector(-20, -20, 0)).cut(drill)
+    _, m = _model(part)
+    _, feats = recognize(m.face_records, m.edge_records)
+    bh = [f for f in feats if f.feature_type == "blind_hole"]
+    assert len(bh) == 1 and bh[0].parameters["diameter_mm"] == pytest.approx(6.0)
+    types = {m.face_records[m.face_index[fid]].surface_type for fid in bh[0].participating_faces}
+    assert types == {"cylinder", "cone"}
+
+
+def test_counterbored_through_hole_is_one_feature() -> None:
+    """Stepped/counterbored holes were the most common downgrade on real NIST parts (R6)."""
+    part = cq.Workplane("XY").box(40, 40, 15).faces(">Z").workplane().cboreHole(6.0, 11.0, 5.0).val()
+    _, m = _model(part)
+    _, feats = recognize(m.face_records, m.edge_records)
+    holes = [f for f in feats if f.feature_type == "through_hole"]
+    assert len(holes) == 1 and not [f for f in feats if f.feature_type == "cylindrical_hole_wall"]
+    h = holes[0]
+    assert h.parameters["diameter_mm"] == pytest.approx(6.0)
+    assert h.parameters["counterbore_diameters_mm"] == [pytest.approx(11.0)]
+    assert h.parameters["length_mm"] == pytest.approx(15.0, abs=0.02)
+    types = sorted(m.face_records[m.face_index[f]].surface_type for f in h.participating_faces)
+    assert types == ["cylinder", "cylinder", "plane"]  # bore, counterbore, annular step

@@ -12,13 +12,19 @@ import re
 import unicodedata
 from collections.abc import Iterable
 from dataclasses import dataclass
-from pathlib import PurePath
+from pathlib import Path, PurePath
 
 from cad2ml.config import IngestionConfig
 from cad2ml.errors import PipelineError
 
 STEP_MAGIC = b"ISO-10303-21;"
 _SAFE = re.compile(r"[^A-Za-z0-9._-]+")
+
+
+def step_files(directory: Path) -> list[Path]:
+    """STEP files in a directory, matched case-insensitively on the allowlisted extensions (.step/.stp)."""
+    exts = {e.lower() for e in IngestionConfig().allowed_extensions}
+    return sorted(p for p in Path(directory).glob("*") if p.is_file() and p.suffix.lower() in exts)
 
 
 def sha256_bytes(data: bytes) -> str:

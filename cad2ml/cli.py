@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 from cad2ml.config import get_settings
+from cad2ml.ingestion.intake import step_files
 from cad2ml.observability.logging import configure_logging
 
 
@@ -53,7 +54,7 @@ def cmd_process_corpus(a: argparse.Namespace) -> int:
 
     store = _store(a.data)
     corpus = Path(a.corpus)
-    files = sorted((corpus / "parts").glob("*.step")) + sorted(
+    files = step_files(corpus / "parts") + sorted(
         p for p in (corpus / "failures").glob("*") if p.name != "expected.json" and not p.name.startswith("_")
     )
     rows: list[dict[str, Any]] = []

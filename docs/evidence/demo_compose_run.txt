@@ -3,40 +3,39 @@
 === 1. synthetic corpus
 generated 72 parts into /data/corpus
 === 2. upload + asynchronous processing
-72 parts -> {'completed': 72} in 116s
+72 parts -> {'completed': 72} in 8s
 === 3. failure fixtures
   empty.step                               upload rejected: EMPTY_FILE
   png_renamed.step                         upload rejected: NOT_STEP_CONTENT
   wrong_extension.txt                      upload rejected: UNSUPPORTED_EXTENSION
+  multi_body.step                          rejected     MULTI_BODY  (idempotent: existing job)
+  open_shell.step                          quarantined  NO_SOLID  (idempotent: existing job)
+  corrupt_truncated.step                   rejected     STEP_PARSE_FAILED  (idempotent: existing job)
+  assembly_two_parts.step                  rejected     UNSUPPORTED_ASSEMBLY  (idempotent: existing job)
   duplicate_of_part.step                   completed      (idempotent: existing job)
-  compound_exported_as_assembly.step       rejected     UNSUPPORTED_ASSEMBLY
-  assembly_two_parts.step                  rejected     UNSUPPORTED_ASSEMBLY
-  multi_body.step                          rejected     MULTI_BODY
-  corrupt_truncated.step                   rejected     STEP_PARSE_FAILED
-  open_shell.step                          quarantined  NO_SOLID
-  tiny_feature_hole_0p2mm.step             completed    
-  large_plate_196_holes.step               completed    
+  large_plate_196_holes.step               completed      (idempotent: existing job)
+  compound_exported_as_assembly.step       rejected     UNSUPPORTED_ASSEMBLY  (idempotent: existing job)
+  tiny_feature_hole_0p2mm.step             completed      (idempotent: existing job)
 === 4. entity lineage for one face
-  points 3780-3883 -> F012
-  -> B-Rep face F012 (cylinder)
+  points 3749-3812 -> F013
+  -> B-Rep face F013 (cylinder)
   -> H001 through_hole (confidence 0.95)
-  -> source clevis__base_holes__3001.step (897739628014...)
-  -> pipeline 1.0.0, config 3e6d22c8bd2f5b8b
+  -> source housing__filleted__23000.step (03a101a738e5...)
+  -> pipeline 1.1.0, config 3e6d22c8bd2f5b8b
   all links verified: True
 === 5. dataset version
- "dataset_id": "ds_6471a96756c9581d",
+ "dataset_id": "ds_e9789b5e6df972fe",
  "split_sizes": {
   "test": 12,
   "train": 48,
   "val": 12
  },
  "leakage_passed": true,
- "excluded": 7
+ "excluded": 13
 }
 === 6. baseline training (worker jobs)
-  gnn: run tr_21e10c5e3f3cfc2d test accuracy 0.9184 macro-F1 0.9773 (196 faces)
-  mlp: run tr_9c3b132217ffec0b test accuracy 1.0 macro-F1 1.0 (196 faces)
+  gnn: run tr_53db9556feb9d64b test accuracy 0.9949 macro-F1 0.9987 (196 faces)
+  mlp: run tr_d22b645c3415d8f0 test accuracy 0.9898 macro-F1 0.989 (196 faces)
 === 7. inference on a held-out test sample
-  sample s_1a7deef8d7e6925efbe4ec2d (split=test): 13 faces, 0 wrong
+  sample s_01159375a0076d129e6cc8c5 (split=test): 13 faces, 1 wrong
 Outputs written to /data/demo_outputs. Inspector UI: http://api:8000/
-exit=0 minutes=2.6

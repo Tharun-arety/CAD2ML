@@ -19,7 +19,7 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-PIPELINE_VERSION = "1.0.0"
+PIPELINE_VERSION = "1.1.0"  # 1.1.0: single-solid isolation from compounds, tessellated-STEP rejection
 SCHEMA_VERSION = "1.0.0"
 EXTRACTOR_VERSION = "1.0.0"
 RECOGNIZER_VERSION = "deterministic_rule_v1"

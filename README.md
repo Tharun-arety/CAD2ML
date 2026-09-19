@@ -9,8 +9,10 @@ and a set of aligned ML representations, and those feed a versioned, leakage-che
 classifier. Every point, triangle, pixel, graph node and prediction can be traced back to a B-Rep face, and from
 there to the source file and the pipeline version.
 
-> Status: all six releases are verified both natively (Windows 11) and in Docker Compose (PostgreSQL + Valkey + 2
-> workers on Linux). The 66 tests pass in both environments. See [STATUS.md](STATUS.md).
+> Status: releases R0–R5 are verified natively (Windows 11) and in Docker Compose (PostgreSQL + Valkey + 2
+> workers on Linux); 72 tests pass in both. R6 (real-world CAD) is in progress: 32 of 33 NIST industrial STEP files
+> process, and the failures it exposed are fixed and documented in [docs/r6_real_world.md](docs/r6_real_world.md).
+> See [STATUS.md](STATUS.md).
 
 ---
 
@@ -52,7 +54,7 @@ points 3704-3739                      (pointcloud.npz, 36 points, face_ids == 15
 → canonical B-Rep face F015           cylinder, r = 6.0 mm, concave, 90° span        [observed/computed]
 → feature P001 pocket, conf 0.95      rule deterministic_rule_v1, 3/3 checks passed   [inferred]
 → source housing__blind_holes__22003.step  sha256 85f95925…
-→ pipeline 1.0.0 · config 3e6d22c8bd2f5b8b · schema 1.0.0
+→ pipeline 1.1.0 · config 3e6d22c8bd2f5b8b · schema 1.0.0
 ```
 
 ![Face F015 highlighted in view 0; blue = its point-cloud samples that pass the depth test](docs/images/lineage_face.png)
@@ -175,7 +177,7 @@ whole families (leakage checked per family).
 
 ## Tests
 
-66 tests. They pass natively on Windows (`pytest`, 151 s) and inside the Linux container (`docker compose run --rm api pytest`, 91 s). The jobs/worker suite also passes against real PostgreSQL and Valkey (5/5). ruff format, ruff lint and mypy are clean. Highlights:
+72 tests. They pass natively on Windows (`pytest`, 109 s), inside the Linux container (`docker compose run --rm api pytest`, 85 s) and in GitHub Actions. The jobs/worker suite also passes against real PostgreSQL and Valkey (5/5). ruff format, ruff lint and mypy are clean. Highlights:
 
 * **Worker hard-kill recovery:** a worker subprocess is killed mid-job, the lease expires, the reaper moves the job to
   `failed_retryable` then `queued`, and a second worker completes it on attempt 2.
@@ -194,16 +196,16 @@ Sources: `docs/evidence/benchmark_compose_2workers.json` and `docs/evidence/benc
 | Metric | Docker Compose (Linux containers, PostgreSQL, Valkey) | Native (Windows 11, SQLite, fakeredis TCP) |
 |---|---|---|
 | outcomes | 75 completed · 7 rejected · 1 quarantined | same |
-| throughput | **41.0 files/min** (121.5 s wall) | 18.3 files/min (272.9 s wall) |
-| job latency, claim → terminal | p50 **2.96 s** · p95 **3.70 s** · max 9.2 s | p50 3.39 s · p95 3.84 s · max 10.6 s |
-| isolated parse / extraction, p50 | 1.15 s / 1.77 s | 1.31 s / 2.06 s |
-| in-child compute, p50 sum of stages | 0.51 s (views 0.31 s) | 0.70 s (views 0.32 s) |
-| artifacts per sample | 544 KB mean | 548 KB mean |
-| peak RSS, 2 workers incl. children | not measured (per-container limit 3 GB) | 404 MB |
+| throughput | **54.9 files/min** (90.7 s wall) | 21.0 files/min (236.9 s wall) |
+| job latency, claim → terminal | p50 **2.23 s** · p95 **2.41 s** · max 7.1 s | p50 2.98 s · p95 3.30 s · max 9.3 s |
+| isolated parse / extraction, p50 | 0.86 s / 1.32 s | 1.15 s / 1.79 s |
+| in-child compute, p50 sum of stages | 0.40 s (views 0.24 s) | 0.61 s (views 0.28 s) |
+| artifacts per sample | 544 KB mean | 549 KB mean |
+| peak RSS, 2 workers incl. children | not measured (per-container limit 3 GB) | 478 MB |
 | idempotent rerun of all 83 files | 0 new jobs | 0 new jobs |
 
 The native host was shared with another heavy workload during these runs, and wall-clock throughput varied between
-runs (an earlier native run measured 22.7 files/min with p50 5.27 s). Most of each job's latency is process
+runs (compose ranged 41.0–54.9 files/min and native 18.3–22.7 files/min across runs on this machine). Most of each job's latency is process
 isolation: spawning a child and importing OCCT happens twice per job. That's a deliberate safety trade-off
 (DECISIONS D-002). A pre-forked child pool is the obvious next optimization.
 
@@ -215,15 +217,14 @@ validation only (`docs/evidence/gnn_validation_sweep.json`).
 
 | Split (test set) | Rule recognizer | Per-face MLP | GNN (3× GINE, mean aggr) |
 |---|---|---|---|
-| **group:** unseen design variants (12 parts, 196 faces) | 1.000 | 1.000 ± 0.000 | 0.934 ± 0.004 |
-| **family:** unseen family `slotted_plate` (12 parts, 184 faces) | 1.000 | 0.971 ± 0.024 | 0.953 ± 0.052 |
+| **group:** unseen design variants (12 parts, 196 faces) | 1.000 | 0.997 ± 0.005 | 0.986 ± 0.019 |
+| **family:** unseen family `slotted_plate` (12 parts, 184 faces) | 1.000 | 0.971 ± 0.013 | 0.917 ± 0.054 |
 
-Accuracy is shown; macro-F1 is in the evidence file. Seed-0 GNN: on the family split, `slot` recall is 0.50 (slot walls
-predicted as `planar`); on the group split, `planar` recall is 0.85. All other classes have recall 1.0.
-**The GNN is sensitive to data order.** The only difference between this run and an earlier one on byte-identical
-geometry was the sample ids (after the config-hash change in D-015), which reorders the data. The earlier run gave
-0.983 ± 0.024 (group) and 0.922 ± 0.051 (family). The same seed also differs between Windows and Linux (e.g. 0.918 in
-the container demo). The MLP was stable across all of these.
+Accuracy is shown; macro-F1 is in the evidence file. Seed-0 GNN: on the family split, `slot` recall is 0.68 (slot walls
+predicted as `planar`); on the group split, `planar` recall is 0.92. All other classes have recall 1.0.
+**The GNN is sensitive to data order.** Across reruns on byte-identical geometry whose only difference was sample ids
+(which reorder the data), the GNN measured 0.934–0.986 (group) and 0.917–0.953 (family). The same seed also differs
+between Windows and Linux. The MLP stayed within 0.971–1.000.
 
 **How to read this honestly:**
 * On this synthetic, prismatic corpus the **graph model does not beat a per-face MLP**. Local face descriptors
@@ -233,7 +234,7 @@ the container demo). The MLP was stable across all of these.
 * Test sets are small (12 parts) and not every class appears in every split. Treat the numbers as proof that the
   dataset is usable, not as a benchmark.
 
-![Ground truth vs GNN prediction on a held-out-family part; the hatched face is wrong (two slot walls predicted planar, conf 0.68)](docs/images/prediction_panel_family_holdout.png)
+![Ground truth vs GNN prediction on a held-out-family part; the hatched face is wrong (a slot wall predicted planar, conf 0.57)](docs/images/prediction_panel_family_holdout.png)
 
 ## Failure handling example
 
@@ -301,13 +302,36 @@ docs/               architecture, evidence (raw measured outputs), images
 
 * The container image is large (6.23 GB: CadQuery/VTK + PyTorch). Peak memory inside compose isn't measured yet.
 * Child resource limits: `RLIMIT_AS` is only a runaway guard (see D-015). Real memory bounds come from container limits, and Windows only has the timeout.
-* Synthetic, axis-aligned, prismatic parts only; no evaluation on real-world CAD yet.
+* Real-world evaluation so far covers 11 NIST parts (33 exports) for robustness and cross-export consistency, with no
+  hole-by-hole ground truth yet. 15 % of real faces remain `unknown` (cones, spheres, tori, B-splines). See
+  [docs/r6_real_world.md](docs/r6_real_world.md).
 * The recognizer covers a limited vocabulary and is tuned on the same families it is evaluated on.
-* Canonical IDs are not stable across edits; revision fingerprint matching is experimental.
+* Canonical IDs are deterministic for a given B-Rep, but **not** stable across edits or across different STEP
+  exporters, which split surfaces differently (0/11 NIST parts had identical IDs across exports; D-017).
 * The GNN is not better than a per-face MLP on this data.
+
+## Real-world evaluation (R6, in progress)
+
+The NIST MBE PMI test models (public domain; 33 STEP files for 11 industrial parts exported by several CAD
+systems) broke assumptions the synthetic corpus never tested. The first run completed only **6/33** files:
+* a batch command ignored `.stp`;
+* PMI curves and reference surfaces next to the solid crashed or quarantined 26 files;
+* a tessellated AP242 file crashed a child process.
+
+After the fixes (pipeline 1.1.0), **32/33 complete** and the tessellated file is rejected with an explicit code.
+
+| Measure (after fixes) | Result |
+|---|---|
+| auxiliary PMI/reference geometry isolated and reported | 27 / 32 files |
+| volume agreement across exports of the same part | 10 / 11 parts within 0.1 % |
+| hole count identical across exports | 9 / 11 parts (was 4 before multi-face floors and counterbore handling) |
+| canonical face IDs identical across exports | **0 / 11** (exporters split faces differently) |
+| near-duplicate detection of same-part exports | 31/31 pairs, 0 false matches (tolerances fit on this data) |
+| faces left `unknown` | 15.3 % |
+
+Details, caveats and open items: [docs/r6_real_world.md](docs/r6_real_world.md).
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md). The highest-value next release is **R6: real-world robustness**. That means evaluating
-the pipeline and recognizer on permissively licensed real STEP data with an audited label sample, and measuring
-failure and repair rates on imported geometry.
+See [ROADMAP.md](ROADMAP.md). Next: finish R6 with a hole-by-hole audit against the NIST drawings / AP242 semantic PMI,
+then the Fusion 360 Gallery segmentation subset for real per-face labels at scale.
