@@ -19,9 +19,10 @@ All gates are verified in two environments:
 | R5 ML proof & reviewer experience | ✅ · ✅ | `docker compose up --build` followed by `docker compose run --rm api python scripts/demo.py --api-url http://api:8000` ran end to end (`docs/evidence/demo_compose_run.txt`). The inspector UI was checked in a browser against the native stack. |
 | R6 Real-world robustness | 🔶 in progress | NIST MBE PMI models: 32/33 complete, 1 rejected (`UNSUPPORTED_TESSELLATED`). Cross-export consistency is measured (`docs/evidence/r6_nist_eval.json`, [docs/r6_real_world.md](docs/r6_real_world.md)). Open: a hole-by-hole audit against the NIST drawings/PMI. |
 
-GitHub Actions (first run, commit `0f0d81c`): the `quality-and-tests` job passed (format, lint, types, audit, unit,
-geometry and integration tests on ubuntu-latest). The `container` job failed at setup because of an invalid
-`trivy-action` tag, now fixed.
+GitHub Actions: [run 35409127088](https://github.com/Tharun-arety/CAD2ML/actions/runs/35409127088) on `5b12e52` is
+green. `quality-and-tests` covers format, lint, types, dependency audit, and unit/geometry/integration tests on
+ubuntu-latest. `container` covers the image build, the compose smoke test and the PostgreSQL/Valkey suite. (The first
+run's container job failed at setup on an invalid `trivy-action` tag, since fixed.)
 
 ## Tests
 
